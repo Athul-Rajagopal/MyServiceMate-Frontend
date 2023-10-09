@@ -1,0 +1,124 @@
+import React, {useState,useEffect} from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import axios from 'axios';
+
+function Signup() {
+    const [username,setUsername] = useState('');
+    const [email,setEmail] = useState('');
+    const [password,setPassword] = useState('');
+    const [confirmPassword,setConfirmPassword] = useState('');
+    const [isWorker,setIsWorker] = useState(false)
+
+    const navigate = useNavigate()
+
+
+  // Declare the 'userType' variable in the component's scope
+  const userType = new URLSearchParams(useLocation().search).get('type');
+
+  useEffect(() => {
+    // Use the 'userType' value to set the 'isWorker' state
+    if (userType === 'worker') {
+      setIsWorker(true);
+    }
+    console.log('@@@@@@@@@@@@@@@@@@@@@@' + isWorker);
+    console.log('####################' + userType + '#########################' + typeof(userType));
+  }, [userType]);
+    
+    const handleSubmit = async (e) =>{
+        e.preventDefault();
+        
+
+        if (password !== confirmPassword) {
+            alert('password do not match')
+            return;
+        }
+
+        const user = {
+            'username':username,
+            'password':password,
+            'email':email,
+            'is_worker':isWorker
+        }
+
+
+        console.log(username,email,password,isWorker)
+
+        try {
+            const response = await axios.post('http://127.0.0.1:8000/api/signup/', user);
+            console.log('Form submitted successfully:', response);
+        
+            if (response.status === 200) {
+              // If the response status is 200, navigate to the OTP page
+              navigate(`/otp?username=${username}`);
+            }
+          } catch (error) {
+            console.error('Form submission error:', error);
+          }
+    }
+
+  return (
+    <div>
+        <div className="w-full max-w-xs">
+  <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+
+    <div className="mb-4">
+      <label className="block text-gray-700 text-sm font-bold mb-2"
+       for="username">
+        Username
+      </label>
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+      id="username"
+      type="text"
+      placeholder="Username"
+      value={username}
+      onChange={(e)=>setUsername(e.target.value)}/>
+    </div>
+
+    <div className="mb-4">
+      <label className="block text-gray-700 text-sm font-bold mb-2" for="email">
+        email
+      </label>
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+      id="email" 
+      type="email" 
+      placeholder="email"
+      value={email}
+      onChange={(e)=>setEmail(e.target.value)}/>
+    </div>
+
+    <div className="mb-4">
+      <label className="block text-gray-700 text-sm font-bold mb-2" for="password">
+        Password
+      </label>
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" 
+      id="password" 
+      type="password" 
+      placeholder="***************"
+      value={password}
+      onChange={(e)=>setPassword(e.target.value)}/>
+    </div>
+
+    <div className="mb-4">
+      <label className="block text-gray-700 text-sm font-bold mb-2" for="password">
+        Confirm Password
+      </label>
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" 
+      id="Conpassword" 
+      type="password" 
+      placeholder="****************"
+      value={confirmPassword}
+      onChange={(e)=>setConfirmPassword(e.target.value)}/>
+    </div>
+
+    <div className="flex items-center justify-between">
+      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type='submit' >
+        Sign Up
+      </button>
+    </div>
+  </form>
+</div>
+    </div>
+  )
+}
+
+export default Signup

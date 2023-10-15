@@ -63,6 +63,9 @@ const AxiosInstance = () => {
               const username = store.getState().auth.username;
               const userId = store.getState().auth.userId;
               const name = store.getState().auth.name;
+              const is_user = store.getState().auth.is_user;
+              const is_approved = store.getState().auth.is_approved;
+              const is_profile_created = store.getState().auth.is_profile_created;
 
           console.log("New access token",newAccessToken);
           console.log("new refresh token",newRefreshToken);
@@ -79,7 +82,10 @@ const AxiosInstance = () => {
                 username : username,
                 userId  : userId ,
                 name : name,
-                isAuthenticated : true
+                isAuthenticated : true,
+                is_user : is_user,
+                is_approved : is_approved,
+                is_profile_created : is_profile_created
               })
             );
 

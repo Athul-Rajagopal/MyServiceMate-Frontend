@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import {selectUserData } from '../redux/AuthSlice';
+import AxiosInstance from '../axios/axiosInstance';
+import { useSelector } from 'react-redux/es/hooks/useSelector';
 
 function LocationDropdown({ onSelectLocation }) {
   const [locations, setLocations] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState('');
-
+  const userData = useSelector(selectUserData);
+  const { accessToken,isAuthenticated,is_worker,refreshToken } = userData;
+  const axiosInstance = AxiosInstance(accessToken)
   useEffect(() => {
     // Fetch the list of available locations from the backend
-    axios.get('http://127.0.0.1:8000/api/locations/')
+    axiosInstance.get('/locations/')
       .then((response) => {
         setLocations(response.data);
         console.log(response.data)

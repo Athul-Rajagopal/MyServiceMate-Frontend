@@ -53,9 +53,11 @@ function SignIn() {
         console.log('Authentication successful:', response.data);
   
         const is_Worker = response.data.worker;
+        const is_user = response.data.is_user
+        const is_Admin = response.data.admin
         console.log(is_Worker);
-  
-        if (!is_Worker) {
+
+        if (is_Admin){
           dispatch(
             login({
               userId: response.data.id,
@@ -63,12 +65,34 @@ function SignIn() {
               username: response.data.username,
               is_super: response.data.admin,
               is_worker: is_Worker,
-              is_active: response.data.active,
+              is_active: response.data.is_active,
               accessToken: response.data.access_token,
               refreshToken: response.data.refresh,
+              is_user: response.data.is_user,
+              is_approved: response.data.is_approved,
+              is_profile_created: response.data.is_profile_created,
             })
           );
-          navigate('/location');
+          navigate('/admin-home');
+        }
+  
+        else if (!is_Worker) {
+          dispatch(
+            login({
+              userId: response.data.id,
+              email: response.data.email,
+              username: response.data.username,
+              is_super: response.data.admin,
+              is_worker: is_Worker,
+              is_active: response.data.is_active,
+              accessToken: response.data.access_token,
+              refreshToken: response.data.refresh,
+              is_user: response.data.is_user,
+              is_approved: response.data.is_approved,
+              is_profile_created: response.data.is_profile_created,
+            })
+          );
+          navigate('/app/location');
         } else {
           dispatch(
             login({
@@ -80,6 +104,9 @@ function SignIn() {
               is_active: response.data.active,
               accessToken: response.data.access_token,
               refreshToken: response.data.refresh,
+              is_user: response.data.is_user,
+              is_approved: response.data.is_approved,
+              is_profile_created: response.data.is_profile_created,
             })
           );
           // If the user is a worker, navigate to the worker home

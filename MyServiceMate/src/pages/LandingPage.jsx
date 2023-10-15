@@ -9,8 +9,9 @@ function LandingPage() {
         <Navbar/>
 
     </div>
-    <div className='mx-auto mt-[150px] flex justify-center'>
-        <div class="max-w-screen-md rounded overflow-hidden shadow-lg">
+    <div className='mx-auto mt-[150px] flex justify-center gap-10'>
+        
+        <div class="max-w-screen-md rounded overflow-hidden shadow-lg bg-yellow-50">
             <div class="px-6 py-4">
 
             <svg width="100px" height="100px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -30,7 +31,9 @@ function LandingPage() {
                 </Link>
             </div>
         </div>
-        <div class="max-w-screen-md rounded overflow-hidden shadow-lg ml-2">
+        
+      
+        <div class="max-w-screen-md rounded overflow-hidden shadow-lg ml-2 bg-green-50">
             
             <div class="px-6 py-4">
             <svg width="100px" height="100px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -50,6 +53,7 @@ function LandingPage() {
                 </Link>
             </div>
         </div>
+        
     </div>
 
     <div>

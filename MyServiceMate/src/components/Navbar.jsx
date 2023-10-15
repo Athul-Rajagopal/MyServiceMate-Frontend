@@ -20,6 +20,9 @@ function Navbar() {
   const { accessToken,isAuthenticated,is_worker,refreshToken } = userData;
   const axiosInstance = AxiosInstance(accessToken);
 
+  // const isWorker = useSelector((state) => state.auth.is_worker);
+  // console.log('isWorker:', isWorker);
+
   const name = userData ? userData.username : '';
   const greeting = name ? `${name}` : 'Guest';
 
@@ -58,13 +61,15 @@ function Navbar() {
         {/* Logo */}
         <img src={logo} alt="logo" className='w-[200px] h-[95px]' />
 
-        {isAuthenticated && !is_worker &&  (<>
+        {isAuthenticated && (<>
 
         {/* Navigation Links */}
         <div className='hidden md:flex gap-4 ml-auto'>
           <ul className='flex gap-4'>
-            <li className='text-700 hover:text-blue-900'> Services</li>
-            <li className='text-700 hover:text-blue-900'>Profile</li>
+            {!is_worker && (
+            <li className='text-700 hover:text-blue-900 hover:bg-slate-100 cursor-pointer'> Services</li>
+            )}
+            <li className='text-700 hover:text-blue-900 hover:bg-slate-100 cursor-pointer'>Profile</li>
           </ul>
         </div>
 
@@ -77,7 +82,7 @@ function Navbar() {
             title={greeting} // Set the tooltip text to the guest name/username
           />
           <button onClick={handleLogout} className=" rounded-lg">
-            <img src={userLogoutLogo} alt="" className='w-20 h-20 rounded-full hover:text-red-500'/>
+            <img src={userLogoutLogo} alt="" className='w-20 h-20 rounded-full hover:bg-slate-100'/>
           </button>
         </div>
 

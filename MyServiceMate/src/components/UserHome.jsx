@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import LocationDropdown from '../components/LocationDropdown';
+import { useNavigate } from 'react-router-dom';
 
 function UserHome({ locationId }) {
   const [services, setServices] = useState([]);
+  const [selectedLocation, setSelectedLocation] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Fetch services based on the selected location
@@ -18,10 +22,20 @@ function UserHome({ locationId }) {
     }
   }, [locationId]);
 
-  return (
-    <div className='flex justify-center  ' >
+  const handleLocationSelect = (locationId) => {
+    setSelectedLocation(locationId);
 
-   
+    // Navigate to UserHomePage and pass the selected location ID
+    navigate(`/app/User-home/${locationId}`);
+  };
+
+  return (
+    <>
+    <div className="flex justify-end items-center mt-2 mr-4">
+    <LocationDropdown onSelectLocation={handleLocationSelect} />
+    </div>
+    <div className='flex justify-center  ' >
+       
         <div className="flex md:w-[840px] w-full    flex-wrap md:justify-between gap-3 p-3">
           {services.map((service) => (
             <div className='md:w-96 w-full '>
@@ -43,7 +57,10 @@ function UserHome({ locationId }) {
           ))}
           
         </div>
+        
         </div>
+        
+    </>
   );
 }
 

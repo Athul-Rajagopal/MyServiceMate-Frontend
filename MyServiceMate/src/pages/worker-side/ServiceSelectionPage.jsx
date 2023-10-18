@@ -11,7 +11,7 @@ function ServiceSelectionPage() {
     const [selectedServices, setSelectedServices] = useState([]);
     const [isSubmitted, setIsSubmitted] = useState(false);
     const userData = useSelector(selectUserData);
-    const {accessToken} = userData;
+    const {accessToken,is_approved,is_profile_created} = userData;
     const axiosInstance = AxiosInstance(accessToken);
     const [isPhoneNumberModalOpen, setPhoneNumberModalOpen] = useState(false); // Control modal visibility
     const [selectedPhoneNumber, setSelectedPhoneNumber] = useState('');
@@ -59,9 +59,15 @@ function ServiceSelectionPage() {
         axiosInstance
           .post('set-field-of-expertice/', { fields: selectedFieldIds })
           .then((response) => {
+            if(is_approved){
+              console.log('Selected fields stored successfully:', response.data);
+              navigate('/worker-home')
+            }
+            else{
             console.log('Selected fields stored successfully:', response.data);
             // Show the mobile number modal
             setPhoneNumberModalOpen(true);
+          }
           })
           .catch((error) => {
             console.error('Error storing selected fields:', error);

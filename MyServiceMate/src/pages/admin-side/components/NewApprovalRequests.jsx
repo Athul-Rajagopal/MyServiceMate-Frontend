@@ -48,7 +48,7 @@ function NewApprovalRequests() {
       };
       
       return (
-        <div className='flex justify-center mt-4 gap-2'>
+        <div className='flex justify-center mt-4 gap-2 ml-[250px] h-full w-[500px]'>
         {approvalRequests.map((worker) => (
           <div key={worker.id} className="w-full max-w-2xl overflow-hidden rounded-lg shadow-lg mb-4 p-4 bg-blue-100">
             <div className='w-16 h-16 m-6'>

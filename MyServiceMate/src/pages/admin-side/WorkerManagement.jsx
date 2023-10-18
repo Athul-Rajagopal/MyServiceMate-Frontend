@@ -1,19 +1,18 @@
 import React from 'react'
 import AdminNavbar from './components/AdminNavbar'
-import NewApprovalRequests from './components/NewApprovalRequests'
 import Sidebar from './components/Sidebar'
+import WorkerList from './components/WorkerList'
 
-function WorkerApprovePage() {
+function WorkerManagement() {
   return (
     <div>
         <AdminNavbar/>
         <div className='flex'>
             <Sidebar/>
-            <NewApprovalRequests/>
+            <WorkerList/>
         </div>
-        
     </div>
   )
 }
 
-export default WorkerApprovePage
+export default WorkerManagement

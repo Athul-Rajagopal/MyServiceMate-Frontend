@@ -17,13 +17,13 @@ function Sidebar() {
     }
   return (
   
-        <div className='p-4 bg-blue-100  w-[250px] px-8 h-[600px] mt-2'>
+        <div className='p-4 bg-slate-100  w-[250px] px-8 h-[600px] mt-2'>
         <ul>
-          <li className='p-4 hover:bg-gray-100 '>Dashboard</li>
-          <li className='p-4 hover:bg-gray-100 ' onClick={serviceSelection}>Services</li>
-          <li className='p-4 hover:bg-gray-100 ' onClick={locationlist}>Locations</li>
-          <li className='p-4 hover:bg-gray-100 ' onClick={usersList}>Users</li>
-          <li className='p-4 hover:bg-gray-100 ' onClick={workersList}>Workers</li>
+          <li className='p-4 hover:bg-white '>Dashboard</li>
+          <li className='p-4 hover:bg-white ' onClick={serviceSelection}>Services</li>
+          <li className='p-4 hover:bg-white ' onClick={locationlist}>Locations</li>
+          <li className='p-4 hover:bg-white ' onClick={usersList}>Users</li>
+          <li className='p-4 hover:bg-white ' onClick={workersList}>Workers</li>
         </ul>
       </div>
     

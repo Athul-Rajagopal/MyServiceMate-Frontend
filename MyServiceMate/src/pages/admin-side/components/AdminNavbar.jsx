@@ -45,7 +45,7 @@ function AdminNavbar() {
 
 
     return(
-    <div className='w-full h-[96px] bg-green-50 border-b shadow-lg'>
+    <div className='w-full h-[96px] bg-slate-100 border-b shadow-lg'>
     <div className='max-w-[1480px] mx-auto h-full flex justify-between items-center px-4'>
 
       {/* Logo */}
@@ -59,7 +59,7 @@ function AdminNavbar() {
           
           <Link to={'/new-requests'} >
           {/* <li className=' rounded-full text-700 hover:bg-blue-100'> New requests</li> */}
-          <li className={location.pathname === '/new-requests' ? 'rounded-full text-700 bg-blue-100 text-blue-500' : 'rounded-full text-700 hover:bg-blue-100'}>New requests</li>
+          <li className={location.pathname === '/new-requests' ? 'rounded-full text-700 bg-blue-50 text-blue-500' : 'rounded-full text-700 hover:bg-white'}>New requests</li>
           </Link>
         </ul>
       </div>
@@ -73,7 +73,7 @@ function AdminNavbar() {
           title={greeting} // Set the tooltip text to the guest name/username
         />
         <button onClick={handleLogout} className=" rounded-lg">
-          <img src={userLogoutLogo} alt="" className='w-20 h-20 rounded-full hover:bg-blue-100'/>
+          <img src={userLogoutLogo} alt="" className='w-20 h-20 rounded-full hover:bg-white'/>
         </button>
       </div>
 

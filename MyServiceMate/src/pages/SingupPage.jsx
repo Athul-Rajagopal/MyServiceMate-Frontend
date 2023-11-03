@@ -1,18 +1,39 @@
 import React from 'react'
-import { Footer, Navbar } from '../components'
-import {Signup} from '../components'
+import { Footer, Navbar, Signup} from '../components'
+import userImage from '../assets/userImage.jpg'
+import workerImage from '../assets/workerImage.jpg'
+import { createGlobalStyle, ThemeProvider } from 'styled-components';
+import { theme } from '../theme/Theme';
+import { useLocation } from 'react-router-dom'
+
+const GlobalStyle = createGlobalStyle`
+  body {
+    background-color: ${theme.primaryColor}; // Set the background color
+    color: ${theme.textColor}; // Set the text color
+    // Add more global styles as needed
+  }
+`;
 
 function SingupPage() {
+  const userType = new URLSearchParams(useLocation().search).get('type');
+  const imageSource = userType === 'worker' ? workerImage : userImage 
   return (
+    <ThemeProvider theme={theme}>
+    <GlobalStyle />
     <div>
-        <div>
-    <Navbar />
-    <div className='flex justify-center items-center h-[calc(100vh - 5rem)] mt-20'>
-        <Signup />
+      <Navbar />
+      <div className='flex justify-center items-center h-[500px] mt-20'>
+        <div className="max-w-screen-md w-full rounded overflow-hidden shadow-lg bg-white flex flex-col items-center">
+          <div className="px-6 py-4 flex flex-col items-center">
+          <img src={imageSource} alt={userType} className="w-20 h-20" />
+            <div className="font-bold text-2xl mb-2">Sign Up</div>
+          </div>
+          <Signup/>
+        </div>
+      </div>
+      <Footer className="mt-5" />
     </div>
-    <Footer className="mt-3" />
-    </div>
-    </div>
+  </ThemeProvider>
   )
 }
 

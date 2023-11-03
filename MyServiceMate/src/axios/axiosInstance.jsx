@@ -117,7 +117,22 @@ const AxiosInstance = () => {
 
             alert.error(refreshError)
 
-            store.dispatch(logout());
+            store.dispatch(
+              logout({
+                isAuthenticated : false,
+                userId : null,
+                email : '',
+                username : '',
+                is_super : false,
+                is_worker : false,
+                is_active : false,
+                accessToken : null,
+                refreshToken : null,
+                is_user : false,
+                is_approved : false,
+                is_profile_created : false,
+              }
+            ));
           } finally {
             isRefreshing = false;
           }

@@ -2,11 +2,26 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import LocationDropdown from '../components/LocationDropdown';
 import { useNavigate } from 'react-router-dom';
+import { createGlobalStyle, ThemeProvider } from 'styled-components';
+import { theme } from '../theme/Theme';
+import { fetchWorkers } from '../redux/WorkerActions';
+import { useDispatch } from 'react-redux';
+
+const GlobalStyle = createGlobalStyle`
+  body {
+    background-color: ${theme.primaryColor};
+    color: ${theme.textColor};
+    // Add more global styles as needed
+  }
+`;
 
 function UserHome({ locationId }) {
   const [services, setServices] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState('');
   const navigate = useNavigate();
+  const [workersList, setWorkersList] = useState([])
+  const [selectedService, setSelectedService] = useState('');
+  const dispatch = useDispatch();
 
   useEffect(() => {
     // Fetch services based on the selected location
@@ -29,38 +44,57 @@ function UserHome({ locationId }) {
     navigate(`/app/User-home/${locationId}`);
   };
 
+  const selectService = (serviceId) => {
+    setSelectedService(serviceId);
+    console.log('Selected Service:', serviceId); // Check the value here
+    console.log('Location ID:', locationId); 
+    const payload = {
+      selectedService: serviceId,
+      selectedLocation: locationId,
+    };
+    dispatch(fetchWorkers(payload));
+    navigate('/app/workers')
+  };
+  
+
   return (
+    <ThemeProvider theme={theme}>
+    <GlobalStyle />
     <>
-    <div className="flex justify-end items-center mt-2 mr-4">
-    <LocationDropdown onSelectLocation={handleLocationSelect} />
-    </div>
-    <div className='flex justify-center  ' >
-       
-        <div className="flex md:w-[840px] w-full    flex-wrap md:justify-between gap-3 p-3">
+      <div className="flex justify-end items-center mt-2 mr-4">
+        <LocationDropdown onSelectLocation={handleLocationSelect} />
+      </div>
+      <div className="flex justify-center">
+        <div className="flex md:w-[840px] w-full flex-wrap md:justify-between gap-3 p-3">
           {services.map((service) => (
-            <div className='md:w-96 w-full '>
-                <div className="max-w-sm rounded pl-4  overflow-hidden shadow-lg" key={service.id}>
-                <div className='flex justify-center'>
-                    <img className="w-[150px] h-[150px]" src={`${service.image}`} alt={service.services} />
+            <div className="md:w-96 w-full">
+              <div
+                className="max-w-sm rounded pl-4 overflow-hidden shadow-lg bg-white"
+                key={service.id}
+              >
+                <div className="flex justify-center">
+                  <img
+                    className="w-[150px] h-[150px]"
+                    src={`http://127.0.0.1:8000/${service.image}`}
+                    alt={service.services}
+                  />
                 </div>
                 <div className="px-6 py-4">
-                    <div className="font-bold text-xl mb-2">{service.services}</div>
+                  <div className="font-bold text-xl mb-2">{service.services}</div>
                 </div>
-                <div className='flex justify-center py-2 px-3'>
-                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-full">
+                <div className="flex justify-center py-2 px-3">
+                  <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-full"
+                  onClick={() => selectService(service.id)}>
                     Select
-                </button>
+                  </button>
                 </div>
-                </div>
+              </div>
             </div>
-
           ))}
-          
         </div>
-        
-        </div>
-        
+      </div>
     </>
+  </ThemeProvider>
   );
 }
 

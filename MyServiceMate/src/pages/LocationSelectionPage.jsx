@@ -4,6 +4,15 @@ import { useNavigate } from 'react-router-dom';
 import { selectUserData } from '../redux/AuthSlice';
 import { useSelector } from 'react-redux';
 import AxiosInstance from '../axios/axiosInstance';
+import { createGlobalStyle, ThemeProvider } from 'styled-components';
+import { theme } from '../theme/Theme';
+
+const GlobalStyle = createGlobalStyle`
+  body {
+    background-color: ${theme.primaryColor};
+    color: ${theme.textColor};
+  }
+`;
 
 function LocationSelectionPage() {
     const [selectedLocation, setSelectedLocation] = useState('');
@@ -32,15 +41,18 @@ function LocationSelectionPage() {
     }
   };
   return (
-    <div className="flex flex-col min-h-screen">
-      <Navbar />
-      <div className="flex-grow flex items-center justify-center">
-        <div className="w-full md:w-1/2">
-          <LocationDropdown onSelectLocation={handleLocationSelect} />
+    <ThemeProvider theme={theme}>
+      <GlobalStyle />
+      <div className="flex flex-col min-h-screen">
+        <Navbar />
+        <div className="flex-grow flex items-center justify-center">
+          <div className="w-full md:w-1/2">
+            <LocationDropdown onSelectLocation={handleLocationSelect} />
+          </div>
         </div>
+        <Footer />
       </div>
-      <Footer />
-    </div>
+    </ThemeProvider>
   )
 }
 

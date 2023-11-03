@@ -3,6 +3,52 @@ import axios from "axios";
 import { useNavigate,useLocation } from 'react-router-dom';
 import Navbar from './Navbar';
 import Footer from './Footer';
+import styled, { createGlobalStyle, ThemeProvider } from 'styled-components';
+import { theme } from '../theme/Theme';
+
+const GlobalStyle = createGlobalStyle`
+  body {
+    background-color: ${theme.primaryColor};
+    color: ${theme.textColor};
+    // Add more global styles as needed
+  }
+`;
+
+const OTPContainer = styled.div`
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+`;
+
+const OTPInput = styled.input`
+  width: 12px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  text-align: center;
+  outline: none;
+  &::placeholder {
+    color: #aaa;
+  }
+`;
+
+const OTPButton = styled.button`
+  background-color: ${theme.primaryColor};
+  color: #fff;
+  font-weight: 600;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  &:hover {
+    background-color: ${theme.primaryColorDark};
+  }
+`;
 
 
 const OTPSignup = () => {
@@ -69,10 +115,11 @@ const OTPSignup = () => {
 
 
   return (
-    <>
+    <ThemeProvider theme={theme}>
+    <GlobalStyle />
     <Navbar/>
       
-      <div className="w-full max-w-sm mx-auto mt-20  p-6 border rounded-lg shadow-xl">
+      <div className="w-full max-w-sm mx-auto mt-20  p-6 border rounded-lg shadow-xl bg-gray-300">
         <h2 className="text-2xl font-semibold mb-4">OTP Verification</h2>
         <p>Enter the OTP sent to your email.</p>
         <div className="mb-4 flex justify-center">
@@ -100,7 +147,7 @@ const OTPSignup = () => {
       </div>
 
       <Footer/>
-    </>
+      </ThemeProvider>
   );
 };
 

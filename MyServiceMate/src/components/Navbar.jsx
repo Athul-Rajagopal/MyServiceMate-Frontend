@@ -51,64 +51,63 @@ function Navbar() {
     }
   };
 
+  function showBookings(){
+    navigate('/app/my-bookings')
+  }
+
 
 
   
   return (
-    <div className='w-full h-[96px] bg-white border-b shadow-lg'>
-      <div className='max-w-[1480px] mx-auto h-full flex justify-between items-center px-4'>
+    <div className="w-full h-[96px] bg-gray-100 border-b shadow-lg">
+      <div className="max-w-[1480px] mx-auto h-full flex justify-between items-center px-4">
 
-        {/* Logo */}
-        <img src={logo} alt="logo" className='w-[200px] h-[95px]' />
+        <img src={logo} alt="logo" className="w-[200px] h-[95px]" />
 
-        {isAuthenticated && (<>
+        {isAuthenticated && (
+          <div className="hidden md:flex gap-4 ml-auto">
+            <ul className="flex gap-4">
+              {!is_worker && (
+                <li className="text-blue-500 hover:bg-blue-300 cursor-pointer rounded-full" onClick={showBookings}>My bookings</li>
+              )}
+              <li className="text-blue-500 hover:bg-blue-300  cursor-pointer rounded-full">Profile</li>
+            </ul>
+          </div>
+        )}
 
-        {/* Navigation Links */}
-        <div className='hidden md:flex gap-4 ml-auto'>
-          <ul className='flex gap-4'>
-            {!is_worker && (
-            <li className='text-700 hover:text-blue-900 hover:bg-slate-100 cursor-pointer'> Services</li>
-            )}
-            <li className='text-700 hover:text-blue-900 hover:bg-slate-100 cursor-pointer'>Profile</li>
+        {isAuthenticated && (
+          <div className="hidden md:flex items-center space-x-2">
+            <img
+              src={userProfile}
+              alt="User Profile"
+              className="w-20 h-20 rounded-full"
+              title={greeting}
+            />
+            <button onClick={handleLogout} className="rounded-lg">
+              <img src={userLogoutLogo} alt="" className="w-20 h-20 rounded-full hover:bg-blue-300" />
+            </button>
+          </div>
+        )}
+
+        <div className="w-10 h-20 md:hidden">
+          <img src={toggle ? closemenu : menulogo} alt="" onClick={handleToggle} />
+        </div>
+      </div>
+
+      {isAuthenticated && (
+        <div className={toggle ? "absolute z-10 p-4 bg-white w-full px-8 md:hidden" : "hidden"}>
+          <ul>
+            <li className="p-4 hover:bg-blue-100" onClick={showBookings}>My bookings</li>
+            <li className="p-4 hover:bg-blue-100">Profile</li>
+            <div>
+              <button onClick={handleLogout} className="rounded-lg">
+                <img src={userLogoutLogo} alt="" className="w-20 h-20 rounded-full hover:text-red-500" />
+              </button>
+            </div>
           </ul>
         </div>
-
-        {/* User Greeting and Profile Image */}
-        <div className='hidden md:flex items-center space-x-2'>
-          <img
-            src={userProfile}
-            alt="User Profile"
-            className='w-20 h-20 rounded-full'
-            title={greeting} // Set the tooltip text to the guest name/username
-          />
-          <button onClick={handleLogout} className=" rounded-lg">
-            <img src={userLogoutLogo} alt="" className='w-20 h-20 rounded-full hover:bg-slate-100'/>
-          </button>
-        </div>
-
-        <div className='w-10 h-20 md:hidden'>
-          <img src={toggle? closemenu : menulogo} alt="" onClick={handleToggle}/>
-        </div>
-
-        </>)}
-      </div>
-
-      {isAuthenticated && (<>
-      <div className={toggle?'absolute z-10 p-4 bg-white w-full px-8 md:hidden ':'hidden'}>
-        <ul>
-          <li className='p-4 hover:bg-gray-100 '>Services</li>
-          <li className='p-4 hover:bg-gray-100 '>Profile</li>
-          <div>
-          <button onClick={handleLogout} className=" rounded-lg">
-            <img src={userLogoutLogo} alt="" className='w-20 h-20 rounded-full hover:text-red-500'/>
-          </button>
-          </div>
-        </ul>
-      </div>
-      
-      </>)}
+      )}
     </div>
-
   )
   }
 

@@ -12,6 +12,8 @@ function ServiceManagement() {
   const userData = useSelector(selectUserData);
   const { accessToken } = userData;
   const axiosInstance = AxiosInstance(accessToken);
+  const [showConfirmation, setShowConfirmation] = useState(false); // State to manage the confirmation pop-up
+  const [serviceToRemove, setServiceToRemove] = useState(null);
 
   useEffect(() => {
     // Fetch services based on the selected location
@@ -32,17 +34,34 @@ function ServiceManagement() {
   };
 
   const handleRemove = (serviceId) => {
-    // Send a DELETE request to the backend to remove the service
-    axiosInstance
-      .delete(`/delete-service/${serviceId}/`) 
-      .then((response) => {
-        console.log(`Service with ID ${serviceId} removed successfully.`);
-        // Update the services list by filtering out the removed service
-        setServices((prevServices) => prevServices.filter((service) => service.id !== serviceId));
-      })
-      .catch((error) => {
-        console.error(`Error removing service with ID ${serviceId}:`, error);
-      });
+    // Trigger the confirmation pop-up
+    setShowConfirmation(true);
+    setServiceToRemove(serviceId);
+  };
+
+  const cancelRemoveService = () => {
+    // Cancel the removal and close the confirmation pop-up
+    setShowConfirmation(false);
+    setServiceToRemove(null);
+  };
+
+
+const confirmRemoveService = () => {
+    if (serviceToRemove !== null) {
+      axiosInstance
+        .delete(`/delete-service/${serviceToRemove}/`)
+        .then((response) => {
+          console.log(`Service with ID ${serviceToRemove} removed successfully.`);
+          setServices((prevServices) => prevServices.filter((service) => service.id !== serviceToRemove));
+        })
+        .catch((error) => {
+          console.error(`Error removing service with ID ${serviceToRemove}:`, error);
+        })
+        .finally(() => {
+          setShowConfirmation(false); // Close the confirmation pop-up
+          setServiceToRemove(null); // Reset service to be removed
+        });
+    }
   };
 
   return (
@@ -81,17 +100,35 @@ function ServiceManagement() {
           </div>
           
         ))}
-         <div className="max-w-sm rounded overflow-hidden shadow-lg md:w-80 w-full">
+         <div className="max-w-sm rounded overflow-hidden shadow-lg md:w-80 w-full h-[250px] flex justify-center">
                 <Link to={'/add-service'}>
                   <div className='flex justify-center'>
-                  <img className="w-[150px] h-[150px]" src={addItemLogo} alt='add' />
+                  <img className="w-[150px] h-[150px] mt-10 ml-3" src={addItemLogo} alt='add' />
                   </div>
                   </Link>
-                  <div className="px-6 py-4">
-                    <div className="font-bold text-xl mb-2"></div>
-                  </div>
                 </div>
       </div>
+
+      {showConfirmation && (
+          <div className="fixed top-0 left-0 h-screen w-screen flex items-center justify-center bg-black bg-opacity-70">
+            <div className="bg-white p-4 rounded-md text-center">
+              <p>Are you sure you want to remove it?</p>
+              <button
+                className="bg-red-500 rounded-xl hover:bg-red-700 text-white font-semibold py-2 px-4 m-2"
+                onClick={confirmRemoveService}
+              >
+                Yes
+              </button>
+              <button
+                className="bg-blue-500 rounded-xl hover:bg-blue-700 text-white font-semibold py-2 px-4 m-2"
+                onClick={cancelRemoveService}
+              >
+                No
+              </button>
+            </div>
+          </div>
+        )}
+
       </div>
     </div>
   );

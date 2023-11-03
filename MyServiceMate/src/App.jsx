@@ -7,8 +7,6 @@ import OTPSignup from './components/OtpSignup';
 import LocationSelectionPage from './pages/LocationSelectionPage';
 import UserHomePage from './pages/user-side/UserHomePage';
 import WorkerHomePage from './pages/worker-side/WorkerHomePage';
-import PrivateRoutes from './private routes/PrivateRoute';
-// import workerPrivateRoutes from './private routes/workerPrivateRoute';
 import ServiceSelectionPage from './pages/worker-side/ServiceSelectionPage';
 import ProfileCreationSuccesfulPage from './pages/worker-side/ProfileCreationSuccesfulPage';
 import AdminLandingPage from './pages/admin-side/AdminLandingPage';
@@ -18,6 +16,14 @@ import AddServicePage from './pages/admin-side/AddServicePage';
 import LocationManagement from './pages/admin-side/LocationManagement';
 import WorkerManagement from './pages/admin-side/WorkerManagement';
 import UserManagement from './pages/admin-side/UserManagement';
+import WorkerSelectionPage from './pages/user-side/WorkerSelectionPage';
+import WorkerDetails from './pages/worker-side/components/workerDetails';
+import LoginProtection from './private routes/PrivateRoute';
+import PendingBookingsPage from './pages/worker-side/PendingBookingsPage';
+import IncompletedBookingsPage from './pages/worker-side/IncompletedBookingsPage';
+import BookingConfirmedPage from './pages/worker-side/BookingConfirmedPage';
+import UserBookingListPage from './pages/user-side/UserBookingListPage';
+
 
 
 function App() {
@@ -26,30 +32,27 @@ function App() {
 
       <Routes>
           <Route path='/' element={<LandingPage/>} />
-          <Route path='/signin' element={<SigninPage/>} />
+          <Route
+          path='/signin'
+          element={<LoginProtection element={<SigninPage />} />}
+        />
           <Route path='/signup' element={<SingupPage/>} />
           <Route path='/otp' element={<OTPSignup/>} />
           
-          
           <Route path="app/location" element={<LocationSelectionPage />} />
           <Route path="app/User-home/:locationId" element={<UserHomePage />} />
+          <Route path='app/workers' element={<WorkerSelectionPage/>} />
+          <Route path="app/worker-details/:workerId" element={<WorkerDetails />} />
+          <Route path='app/booking-confirmed' element={<BookingConfirmedPage/>} />
+          <Route path='app/my-bookings' element={<UserBookingListPage/>} />
              
           
-
-          {/* <Route
-            path="/app/*"
-            element={<PrivateRoutes />}
-          >
-            <Route path="worker-home" element={<WorkerHomePage />} />
-
-          </Route> */}
-          
-          {/* <Route path='/app/location' element={<LocationSelectionPage/>} /> */}
-          {/* <Route path='/app/User-home/:locationId' element={<UserHomePage/>} /> */}
           <Route path='/worker-home' element={<WorkerHomePage/>} /> 
           <Route path="/location" element={<LocationSelectionPage />} />
           <Route path='/service-selection' element={<ServiceSelectionPage/>} />
           <Route path='/profile-created' element={<ProfileCreationSuccesfulPage/>} />
+          <Route path='/new-bookings' element={<PendingBookingsPage/>} />
+          <Route path='/my-bookings' element={<IncompletedBookingsPage/>} />
 
 
           <Route path='/admin' element={<SigninPage/>} />

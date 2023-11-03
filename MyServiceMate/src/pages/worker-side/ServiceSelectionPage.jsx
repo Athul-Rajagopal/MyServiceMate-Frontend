@@ -67,7 +67,7 @@ function ServiceSelectionPage() {
             console.log('Selected fields stored successfully:', response.data);
             // Show the mobile number modal
             setPhoneNumberModalOpen(true);
-          }
+            }
           })
           .catch((error) => {
             console.error('Error storing selected fields:', error);

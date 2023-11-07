@@ -97,9 +97,11 @@ function WorkerProfile() {
         </div>
       </div>
       <div className="fixed bottom-8 right-8">
+      <Link to={`/chat/${userId}`}>
           <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-full">
             Chat
           </button>
+        </Link>
       </div>
     </div>
   );

@@ -60,6 +60,7 @@ const OTPSignup = () => {
 
   const user = new URLSearchParams(useLocation().search).get('username');
 
+
   useEffect(() => {
     // Use the 'userType' value to set the 'isWorker' state
     setusername(user)
@@ -88,6 +89,7 @@ const OTPSignup = () => {
     // Combine the OTP digits and perform verification here.
     const combinedOTP = otp.join('');
     console.log('OTP is:', combinedOTP);
+
 
     try{
     // Define the API endpoint URL for OTP verification

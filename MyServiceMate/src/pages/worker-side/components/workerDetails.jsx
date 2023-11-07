@@ -1,5 +1,5 @@
 import React,{useState} from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import { Footer, Navbar } from '../../../components';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
@@ -7,6 +7,8 @@ import { theme } from '../../../theme/Theme';
 import workerImage from '../../../assets/wokerSvg.svg';
 import SlotBookingCalendar from './SlotBookingCalendar';
 import SlotBooking from './SlotBooking';
+import { useSelector } from 'react-redux';
+import { selectUserData } from '../../../redux/AuthSlice';
 
 
 const GlobalStyle = createGlobalStyle`
@@ -23,10 +25,17 @@ function WorkerDetails() {
     const location = useLocation();
     const selectedWorker = location.state.selectedWorker;  
     const [isBookingVisible, setIsBookingVisible] = useState(false);
+    const userData = useSelector(selectUserData)
+    const {userId} = userData
+    const navigate = useNavigate()
     
     const handleBookNowClick = () => {
         setIsBookingVisible(true);
       };
+
+    const SetChatFunction = (userId,workerId) =>{
+      navigate(`/app/chat/${userId}/${workerId}`)
+    }
 
   return (
     <ThemeProvider theme={theme}>
@@ -61,7 +70,8 @@ function WorkerDetails() {
               <SlotBookingCalendar Id={workerId} />
             </div>
             <div className="fixed bottom-8 right-8">
-              <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-full">
+              <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-full"
+              onClick={()=>SetChatFunction(userId,workerId)}>
                 Chat
               </button>
             </div>

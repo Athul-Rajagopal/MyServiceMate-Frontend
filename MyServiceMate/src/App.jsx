@@ -21,8 +21,13 @@ import WorkerDetails from './pages/worker-side/components/workerDetails';
 import LoginProtection from './private routes/PrivateRoute';
 import PendingBookingsPage from './pages/worker-side/PendingBookingsPage';
 import IncompletedBookingsPage from './pages/worker-side/IncompletedBookingsPage';
-import BookingConfirmedPage from './pages/worker-side/BookingConfirmedPage';
 import UserBookingListPage from './pages/user-side/UserBookingListPage';
+import WorkerBookings from './pages/admin-side/components/WorkerBookings';
+import UserBookings from './pages/admin-side/components/UserBookings';
+import ErrorPage from './pages/Errorpage';
+import UserChat from './pages/user-side/UserChat';
+import WorkerChat from './pages/worker-side/WorkerChat';
+import ForgotPassword from './components/ForgotPassword';
 
 
 
@@ -43,8 +48,8 @@ function App() {
           <Route path="app/User-home/:locationId" element={<UserHomePage />} />
           <Route path='app/workers' element={<WorkerSelectionPage/>} />
           <Route path="app/worker-details/:workerId" element={<WorkerDetails />} />
-          <Route path='app/booking-confirmed' element={<BookingConfirmedPage/>} />
           <Route path='app/my-bookings' element={<UserBookingListPage/>} />
+          <Route path='app/chat/:userId/:workerId' element={<UserChat/>} />
              
           
           <Route path='/worker-home' element={<WorkerHomePage/>} /> 
@@ -53,6 +58,7 @@ function App() {
           <Route path='/profile-created' element={<ProfileCreationSuccesfulPage/>} />
           <Route path='/new-bookings' element={<PendingBookingsPage/>} />
           <Route path='/my-bookings' element={<IncompletedBookingsPage/>} />
+          <Route path='/chat/:userId' element={<WorkerChat/>} />
 
 
           <Route path='/admin' element={<SigninPage/>} />
@@ -63,6 +69,11 @@ function App() {
           <Route path='/add-service' element = {<AddServicePage/>} />
           <Route path='/worker-management' element={<WorkerManagement/>} />
           <Route path='/user-management' element={<UserManagement/>} />
+          <Route path='/worker-bookings/:workerId' element={<WorkerBookings/>} />
+          <Route path='/user-bookings/:userId' element={<UserBookings/>} />
+
+          <Route path='*' element={<ErrorPage/>} />
+          <Route path='/forgot-password' element={<ForgotPassword/>} />
                
       </Routes>
 

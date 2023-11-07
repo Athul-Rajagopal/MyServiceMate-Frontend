@@ -9,6 +9,8 @@ import { useNavigate } from 'react-router-dom';
 function LocationManagement() {
     const [locations, setLocations] = useState([]);
     const [newLocation, setNewLocation] = useState('');
+    const [newLatitude,setLatitude] = useState('')
+    const [newLongitude,setLongitude] = useState('')
     const userData = useSelector(selectUserData);
     const { accessToken } = userData;
     const axiosInstance = AxiosInstance(accessToken)
@@ -30,7 +32,7 @@ function LocationManagement() {
 
       const handleAddLocation = () => {
         axiosInstance
-            .post('/create-location/', { locations: newLocation })
+            .post('/create-location/', { locations: newLocation, latitude:newLatitude, longitude:newLongitude })
             .then((response) => {
                 // Refresh the location list or update state
                 setLocations([...locations, response.data]);
@@ -104,6 +106,30 @@ function LocationManagement() {
                                 placeholder="New Location"
                                 id="service-input"
                                 onChange={(e) => setNewLocation(e.target.value)}
+                                required
+                            />
+                            <label className="block mb-2" htmlFor="service-input">
+                                Latitude
+                            </label>
+                            <input
+                                className="w-full h-12 px-4 text-base placeholder-gray-600 border rounded-lg focus:shadow-outline"
+                                type="text"
+                                name="latitude"
+                                placeholder="latitude"
+                                id="latitude-input"
+                                onChange={(e) => setLatitude(e.target.value)}
+                                required
+                            />
+                            <label className="block mb-2" htmlFor="service-input">
+                                Longitude
+                            </label>
+                            <input
+                                className="w-full h-12 px-4 text-base placeholder-gray-600 border rounded-lg focus:shadow-outline"
+                                type="text"
+                                name="longitude"
+                                placeholder="longitude"
+                                id="longitude-input"
+                                onChange={(e) => setLongitude(e.target.value)}
                                 required
                             />
                         </div>

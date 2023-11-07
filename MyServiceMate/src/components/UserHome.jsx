@@ -75,7 +75,7 @@ function UserHome({ locationId }) {
                 <div className="flex justify-center">
                   <img
                     className="w-[150px] h-[150px]"
-                    src={`http://127.0.0.1:8000/${service.image}`}
+                    src={`http://127.0.0.1:8000${service.image}`}
                     alt={service.services}
                   />
                 </div>

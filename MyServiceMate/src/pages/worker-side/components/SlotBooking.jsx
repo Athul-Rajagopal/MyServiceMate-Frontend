@@ -8,6 +8,8 @@ import { setSelectedDate } from '../../../redux/BookingReducer';
 import { useNavigate } from 'react-router-dom';
 // import { submitBooking } from '../../../redux/bookingThunks';
 import AxiosInstance from '../../../axios/axiosInstance';
+import { toast } from 'react-toastify';
+import Modal from 'react-modal'
 
 
 const GlobalStyle = createGlobalStyle`
@@ -17,6 +19,18 @@ const GlobalStyle = createGlobalStyle`
     // Add more global styles as needed
   }
 `;
+Modal.setAppElement('#root'); // Set the root element for accessibility
+
+const customStyles = {
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+  },
+};
 
 function SlotBooking({workerId}) {
     const userData = useSelector(selectUserData)
@@ -27,6 +41,8 @@ function SlotBooking({workerId}) {
     const [address, setAddress] = useState('');
     const [issue, setIssue] = useState('');
     const axiosInstance = AxiosInstance(accessToken);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
 
 
     const selectedDate = useSelector((state) => state.booking?.selectedDate);
@@ -55,14 +71,20 @@ function SlotBooking({workerId}) {
             workerId:workerId,
           };
 
-          axiosInstance.post('/submit-booking', dataToSend)
-          .then((response)=>{
-            console.log(response.data)
-            navigate('/app/booking-confirmed');
+          axiosInstance.post('/submit-booking', dataToSend, { timeout: 10000 })
+          .then((response) => {
+            console.log(response.data);
+            setIsModalOpen(true); // Use the navigate function to redirect
           })
           .catch((error) => {
-            alert.error(error)
-            console.log(error)
+            if (error.response && error.response.data) {
+              // Check if error.response and error.response.data exist
+              toast.error(error.response.data); // Show the error message from the server response
+            } else {
+              // Handle the error when response or response.data is undefined
+              toast.error('An error occurred. Please try again.'); // Provide a generic error message
+            }
+            console.log(error);
           });
     }
   return (
@@ -107,6 +129,24 @@ function SlotBooking({workerId}) {
           </div>
         </form>
     </div>
+    <Modal
+        isOpen={isModalOpen}
+        onRequestClose={() => setIsModalOpen(false)}
+        style={customStyles}
+      >
+        <h2>Booking Confirmation</h2>
+        <p>Your booking was successful!</p>
+        <p>We will notify you when the booking is confirmed.</p>
+        <button
+        className="bg-blue-300 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full flex-1 mt-5"
+          onClick={() => {
+            setIsModalOpen(false);
+            navigate('/app/location');
+          }}
+        >
+          Go Back to Home
+        </button>
+      </Modal>
     </ThemeProvider>
   )
 }

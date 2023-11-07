@@ -37,12 +37,25 @@ function SimpleCalendar({ Id, flag }) {
     return date < today;
   };
 
+  const isDateBooked = (date) => {
+    return bookedDates.some((bookedDate) =>
+      date.getFullYear() === bookedDate.getFullYear() &&
+      date.getMonth() === bookedDate.getMonth() &&
+      date.getDate() === bookedDate.getDate()
+    );
+  };
+
+
   const handleDateClick = (clickedDate) => {
     if (flag === 1) {
-      // dispatch(setSelectedDate(clickedDate)); // Dispatch the action to store the date
-      setClickedDate(clickedDate)
-      setShowConfirmation(true);
-      console.log(ClickedDate)
+      // Check if the date is already booked
+      if (isDateBooked(clickedDate)) {
+        alert('This date is already booked. Please choose another date.');
+      } else {
+        // If the date is available, proceed with booking
+        setClickedDate(clickedDate);
+        setShowConfirmation(true);
+      }
     } else {
       setDate(clickedDate);
     }
@@ -66,18 +79,15 @@ function SimpleCalendar({ Id, flag }) {
         className="w-[550px]"
         value={date}
         onChange={handleDateClick}
-        tileDisabled={({ date }) => isDateBeforeToday(date)}
+        tileDisabled={({ date }) => isDateBeforeToday(date) || isDateBooked(date)}
         tileContent={({ date, view }) => {
           if (view === 'month') {
-            const isBooked = bookedDates.some(
-              (bookedDate) =>
-                date.getFullYear() === bookedDate.getFullYear() &&
-                date.getMonth() === bookedDate.getMonth() &&
-                date.getDate() === bookedDate.getDate()
-            );
+            const isBooked = isDateBooked(date);
 
             if (isBooked) {
               return <div className="booked-date">Booked</div>;
+            } else if (ClickedDate && date.toDateString() === ClickedDate.toDateString()) {
+              return <div className="selected-date">Selected</div>;
             }
           }
           return null;
@@ -86,7 +96,7 @@ function SimpleCalendar({ Id, flag }) {
       {showConfirmation && (
         <div className="fixed top-0 left-0 h-screen w-screen flex items-center justify-center bg-black bg-opacity-70">
           <div className="bg-white p-4 rounded-md text-center">
-            <p>Confirm your booking on {date.toLocaleDateString()}</p>
+            <p>Confirm your booking on {ClickedDate.toLocaleDateString()}</p>
             <button className="bg-red-500 rounded-xl hover-bg-red-700 text-white font-semibold py-2 px-4 m-2" onClick={handleBookingConfirmation}>
               Confirm
             </button>
@@ -103,6 +113,12 @@ function SimpleCalendar({ Id, flag }) {
         {`
           .booked-date {
             background-color: red;
+            color: white;
+            padding: 4px;
+            border-radius: 20%;
+          }
+          .selected-date {
+            background-color: green;
             color: white;
             padding: 4px;
             border-radius: 20%;

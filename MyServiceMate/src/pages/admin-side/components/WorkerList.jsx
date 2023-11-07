@@ -56,6 +56,10 @@ function WorkerList() {
       });
   };
 
+  const handleBookingclick = (workerId) =>{
+    navigate(`/worker-bookings/${workerId}`)
+  }
+
 
 
 
@@ -112,9 +116,8 @@ function WorkerList() {
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                 {/* Add action buttons here */}
-                <button className="text-indigo-600 hover:text-indigo-900" >Bookings</button>
+                <button className="text-indigo-600 hover:text-indigo-900" onClick={()=>handleBookingclick(worker.id)} >Bookings</button>
                 <button className="text-indigo-600 hover:text-indigo-900 ml-3">Reviews</button>
-                <button className="text-red-600 hover:text-red-900 ml-3">Remove</button>
                 <button className="text-red-600 hover:text-red-900 ml-3" onClick={() => blockUser(worker.username)}>{worker.is_active ? 'Block' : 'Unblock'}</button>
               </td>
             </tr>

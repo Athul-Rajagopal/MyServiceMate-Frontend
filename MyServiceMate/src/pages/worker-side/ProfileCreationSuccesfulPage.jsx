@@ -24,7 +24,7 @@ function ProfileCreationSuccesfulPage() {
           <div className="  w-96 h-60 md:mt-36 rounded-2xl bg-blue-500 flex-row items-center justify-center space-x-5">
                     <p className='text-4xl pt-12 pl-11 text-white font-mono'>Congratulations!</p>
                     <p className='pt-6 pl-3 mb-4 text-white'>
-                        Your registration has been completed. Our admin will verify it and respond to you soon.</p>
+                        Your registration has been completed. Our admin will verify it and respond to you soon. Now you can logout the Profile</p>
                     <div className='pl-28'>
                         {/* <Link to="/">
                             <button type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">

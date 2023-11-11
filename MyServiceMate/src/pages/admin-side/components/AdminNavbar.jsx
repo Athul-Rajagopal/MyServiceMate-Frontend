@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux';
 import { logout, selectUserData } from '../../../redux/AuthSlice';
 import { useNavigate } from 'react-router-dom';
@@ -16,10 +16,24 @@ function AdminNavbar() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const userData = useSelector(selectUserData);
+    const [newRequestsCount, setNewRequestsCount] = useState(0);
     const { accessToken,isAuthenticated,is_admin,refreshToken } = userData;
     const axiosInstance = AxiosInstance(accessToken);
     const name = userData ? userData.username : '';
     const greeting = name ? `${name}` : 'Guest';
+
+
+    useEffect(() => {
+      // Fetch the count of new requests
+      axiosInstance
+        .get('/worker-approval-requests-count/')
+        .then((response) => {
+          setNewRequestsCount(response.data.count);
+        })
+        .catch((error) => {
+          console.error('Error fetching new requests count:', error);
+        });
+    }, []);
 
     const handleToggle =() => setToggle(!toggle)
 
@@ -59,7 +73,9 @@ function AdminNavbar() {
           
           <Link to={'/new-requests'} >
           {/* <li className=' rounded-full text-700 hover:bg-blue-100'> New requests</li> */}
-          <li className={location.pathname === '/new-requests' ? 'rounded-full text-700 bg-blue-50 text-blue-500' : 'rounded-full text-700 hover:bg-white'}>New requests</li>
+          <li className={location.pathname === '/new-requests' ? 'rounded-full text-700 bg-blue-50 text-blue-500' : 'rounded-full text-700 hover:bg-white'}>
+            New requests
+            {newRequestsCount > 0 && <span className="ml-1 bg-red-500 text-white px-2 py-1 rounded-full">{newRequestsCount}</span>}</li>
           </Link>
         </ul>
       </div>
@@ -87,8 +103,10 @@ function AdminNavbar() {
     <>
     <div className={toggle?'absolute z-10 p-4 bg-green-50 w-full px-8 md:hidden ':'hidden'}>
       <ul>
-        <li className='p-4 hover:bg-gray-100 '>New requests</li>
-        
+      <Link to={'/new-requests'} >
+        <li className='p-4 hover:bg-gray-100 '>New requests
+        {newRequestsCount > 0 && <span className="ml-1 bg-red-500 text-white px-2 py-1 rounded-full">{newRequestsCount}</span>}</li>
+        </Link>
         <div>
         <button onClick={handleLogout} className=" rounded-lg">
           <img src={userLogoutLogo} alt="" className='w-20 h-20 rounded-full hover:text-red-500'/>

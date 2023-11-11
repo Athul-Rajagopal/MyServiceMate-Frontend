@@ -6,11 +6,15 @@ import addItemLogo from '../assets/addLogo.png';
 import { Link } from 'react-router-dom';
 import workerImage from '../assets/wokerSvg.svg'
 import { useNavigate } from 'react-router-dom';
+import PhoneNumberModal from '../pages/worker-side/modal/PhoneNumberModal';
+
 function WorkerProfile() {
     const [workerData, setWorkerData] = useState({});
+    const [newRequestsCount, setNewRequestsCount] = useState(0);
     const userData = useSelector(selectUserData)
     const {accessToken,userId} = userData
     const axiosInstance = AxiosInstance(accessToken);
+    const [isPhoneNumberModalOpen, setPhoneNumberModalOpen] = useState(false);
     const navigate = useNavigate()
     console.log(userId)
 
@@ -27,12 +31,41 @@ function WorkerProfile() {
       });
   }, []);
 
+  useEffect(() => {
+    // Fetch the count of new requests
+    axiosInstance
+      .get(`/worker-pending-bookings-count/`)
+      .then((response) => {
+        setNewRequestsCount(response.data.count);
+      })
+      .catch((error) => {
+        console.error('Error fetching new requests count:', error);
+      });
+  }, []);
+
   const onNewBookingClick = () =>{
     navigate('/new-bookings');
   }
   const onMyBookingClick = () =>{
     navigate('/my-bookings');
   }
+
+  const handlePhoneClick = () =>{
+    setPhoneNumberModalOpen(true)
+  }
+
+  const handlePhoneNumberSave = (phoneNumber) => {axiosInstance
+    .patch('edit-phone-number/', { phone: phoneNumber })
+    .then((response) => {
+      console.log('Phone number updated successfully:', response.data);
+      setPhoneNumberModalOpen(false); // Close the modal
+      navigate('/worker-home');
+    })
+    .catch((error) => {
+      console.error('Error updating phone number:', error);
+      // Handle the error, e.g., show an error message
+    });
+  };
   return (
     <div>
       <div className="flex justify-between mt-8 mx-5 md:mx-10">
@@ -44,6 +77,8 @@ function WorkerProfile() {
           <div className="mt-5 ml-4">
             <p className="text-bold">Name: {workerData.username}</p>
             <p className="text-bold">Location: {workerData.location}</p>
+
+            <button className='text-red-500' onClick={handlePhoneClick}>Add/Edit Phone</button>
           </div>
         </div>
         <div>
@@ -51,6 +86,7 @@ function WorkerProfile() {
             <button className="bg-blue-200 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-2xl mt-4"
             onClick={()=>onNewBookingClick()}>
               New Bookings
+              {newRequestsCount > 0 && <span className="ml-1 bg-red-500 text-white px-2 py-1 rounded-full">{newRequestsCount}</span>}
             </button>
           </div>
           
@@ -62,6 +98,15 @@ function WorkerProfile() {
           </div>
         </div>
       </div>
+
+      <div className='flex justify-center mt-5'>
+      <PhoneNumberModal
+          isOpen={isPhoneNumberModalOpen}
+          onClose={() => setPhoneNumberModalOpen(false)}
+          onSave={handlePhoneNumberSave}
+        />
+        </div>
+
       <div className="mt-10">
         <div className="flex justify-center bg-blue-200 w-full ml-5 mr-5 ">
           <div className="flex md:w-[830px] w-full flex-wrap md:justify-between gap-3 p-3">

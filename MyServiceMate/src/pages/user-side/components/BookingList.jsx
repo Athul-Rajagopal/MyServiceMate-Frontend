@@ -50,7 +50,7 @@ function BookingList() {
               <div className="md:w-1/5 p-4">
                 <p className="text-xl text-[#195a03c5]">Slot Selected: {booking.date}</p>
                 <p className="text-xl text-[#195a03c5]">
-                  Status: {booking.is_accepted ? 'Accepted' : booking.is_completed ? 'Completed' : 'Pending for acceptance'}
+                  Status: {booking.is_accepted ? 'Accepted' : booking.is_completed ? 'Completed' : booking.is_rejected ? 'Rejected' : 'Pending for acceptance'}
                 </p>
               </div>
             </div>

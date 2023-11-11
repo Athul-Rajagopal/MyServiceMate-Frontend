@@ -4,7 +4,7 @@ function Footer() {
   return (
     <div className='w-full mt-20 border-t-2 bg-gray-100 flex-shrink-0 h-full'>
       <div className='max-w-[1500px] mx-auto'>
-        <div className='border-t bg-white h-[250px] flex flex-col text-left'>
+        <div className='border-t bg-white h-[250px] flex flex-col text-left p-4'>
           <h1 class="font-bold text-xl mt-2 pl-4">About Us</h1>
           <div class="pl-4 pr-4">
             <p class="mb-2"><span class="font-bold">MyServiceMate</span> is an online free service booking app where you can find solutions to all your house maintenance problems.</p>

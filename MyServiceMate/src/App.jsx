@@ -28,6 +28,7 @@ import ErrorPage from './pages/Errorpage';
 import UserChat from './pages/user-side/UserChat';
 import WorkerChat from './pages/worker-side/WorkerChat';
 import ForgotPassword from './components/ForgotPassword';
+import WorkerReviews from './pages/admin-side/components/WorkerReviews';
 
 
 
@@ -71,6 +72,9 @@ function App() {
           <Route path='/user-management' element={<UserManagement/>} />
           <Route path='/worker-bookings/:workerId' element={<WorkerBookings/>} />
           <Route path='/user-bookings/:userId' element={<UserBookings/>} />
+          <Route path="/worker-reviews/:workerId" element={<WorkerReviews />} />
+          
+
 
           <Route path='*' element={<ErrorPage/>} />
           <Route path='/forgot-password' element={<ForgotPassword/>} />

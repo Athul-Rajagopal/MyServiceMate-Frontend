@@ -35,19 +35,28 @@ function NewBookings() {
 
       const handleAcceptClick = (bookingId) => {
         // Make an API request to update the booking's is_accepted status
-        axiosInstance.post(`/accept-booking/${bookingId}/`)
+        axiosInstance.post(`/accept-booking/${bookingId}/`,{ timeout: 10000 })
+        .then((response) => {
+          // Update the local state to remove the rejected booking
+          const updatedBookings = bookings.filter((booking) => booking.id !== bookingId);
+          setBookings(updatedBookings);
+        })
+        .catch((error) => {
+          console.error('Error rejecting booking:', error);
+        });
+      };
+
+     
+      const handleRejectClick = (bookingId) => {
+        // Make an API request to delete the booking
+        axiosInstance.post(`/reject-booking/${bookingId}/`,{ timeout: 10000 })
           .then((response) => {
-            // Update the local state to reflect the change
-            const updatedBookings = bookings.map((booking) => {
-              if (booking.id === bookingId) {
-                return { ...booking, is_accepted: true };
-              }
-              return booking;
-            });
+            // Update the local state to remove the rejected booking
+            const updatedBookings = bookings.filter((booking) => booking.id !== bookingId);
             setBookings(updatedBookings);
           })
           .catch((error) => {
-            console.error('Error accepting booking:', error);
+            console.error('Error rejecting booking:', error);
           });
       };
   return (
@@ -72,7 +81,9 @@ function NewBookings() {
                 disabled={booking.is_accepted}>
                   Accept
                 </button>
-                <button className="bg-red-200 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full flex-1">
+                <button className="bg-red-200 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full flex-1"
+                onClick={()=>handleRejectClick(booking.id)}
+                disabled={booking.is_rejected}>
                   Decline
                 </button>
               </div>

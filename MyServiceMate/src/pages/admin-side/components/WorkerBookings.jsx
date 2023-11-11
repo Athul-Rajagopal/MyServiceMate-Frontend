@@ -49,6 +49,8 @@ function WorkerBookings() {
             return bookings.filter((booking) => booking.is_accepted && !booking.is_completed);
           case 'Completed':
             return bookings.filter((booking) => booking.is_completed);
+          case 'Rejected':
+            return bookings.filter((booking) => booking.is_rejected);
           default:
             return bookings;
         }
@@ -76,6 +78,7 @@ function WorkerBookings() {
               <option value="Pending">Pending</option>
               <option value="Accepted">Accepted</option>
               <option value="Completed">Completed</option>
+              <option value="Rejected">Rejected</option>
             </select>
           </div>
 
@@ -92,7 +95,7 @@ function WorkerBookings() {
               <div className="md:w-1/5 p-4">
                 <p className="text-xl text-[#195a03c5]">Slot Selected: {booking.date}</p>
                 <p className="text-xl text-[#195a03c5]">
-                  Status: {booking.is_accepted ? 'Accepted' : booking.is_completed ? 'Completed' : 'Pending for acceptance'}
+                  Status: {booking.is_accepted ? 'Accepted' : booking.is_completed ? 'Completed' : booking.is_rejected ? 'Rejected' : 'Pending for acceptance'}
                 </p>
               </div>
             </div>

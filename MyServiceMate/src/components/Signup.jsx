@@ -8,6 +8,7 @@ function Signup() {
     const [password,setPassword] = useState('');
     const [confirmPassword,setConfirmPassword] = useState('');
     const [isWorker,setIsWorker] = useState(false)
+    const [emailError, setEmailError] = useState('');
 
     const navigate = useNavigate()
 
@@ -56,6 +57,12 @@ function Signup() {
           }
     }
 
+    const validateEmail = (email) => {
+      // Regular expression for basic email validation
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(email);
+    };
+
   return (
     <div>
         <div className="w-full max-w-xs">
@@ -78,12 +85,18 @@ function Signup() {
       <label className="block text-gray-700 text-sm font-bold mb-2" for="email">
         email
       </label>
-      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+      <input className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
+                emailError ? 'border-red-500' : ''
+              }`} 
       id="email" 
       type="email" 
       placeholder="email"
       value={email}
-      onChange={(e)=>setEmail(e.target.value)}/>
+      onChange={(e) => {
+        setEmail(e.target.value);
+        setEmailError('');
+      }}/>
+      {emailError && <p className="text-red-500 text-sm">{emailError}</p>}
     </div>
 
     <div className="mb-4">

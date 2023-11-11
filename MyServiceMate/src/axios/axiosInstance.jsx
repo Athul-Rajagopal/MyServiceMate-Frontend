@@ -12,7 +12,7 @@ const AxiosInstance = () => {
   const accessToken = store.getState().auth.accessToken;
   const axiosInstance = axios.create({
     baseURL: 'http://127.0.0.1:8000/api', // Replace with your base URL
-    timeout: 5000,
+    timeout: 10000,
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${accessToken}`,
@@ -114,8 +114,12 @@ const AxiosInstance = () => {
           } catch (refreshError) {
             console.log('Refresh Token expired:');
             console.log('Failed to refresh token:', refreshError);
+            
+            localStorage.clear();
 
             alert.error(refreshError)
+
+           
 
             store.dispatch(
               logout({

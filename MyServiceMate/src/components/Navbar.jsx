@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux';
 import { logout, selectUserData } from '../redux/AuthSlice';
 import { useNavigate } from 'react-router-dom';
@@ -17,8 +17,9 @@ function Navbar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const userData = useSelector(selectUserData);
-  const { accessToken,isAuthenticated,is_worker,refreshToken } = userData;
+  const { accessToken,isAuthenticated,is_worker,refreshToken, userId } = userData;
   const axiosInstance = AxiosInstance(accessToken);
+  const [newPaymentsCount, setNewPaymentsCount] = useState(0);
 
   // const isWorker = useSelector((state) => state.auth.is_worker);
   // console.log('isWorker:', isWorker);
@@ -28,6 +29,17 @@ function Navbar() {
 
   console.log('#####################################'+isAuthenticated+is_worker)
 
+  useEffect(() => {
+    if (isAuthenticated && !is_worker) {
+      axiosInstance.get(`/pending-payments/${userId}`)
+        .then((response) => {
+          setNewPaymentsCount(response.data.length);
+        })
+        .catch((error) => {
+          console.error('Error fetching new payments count:', error);
+        });
+    }
+  }, [userId]);
 
   const handleToggle =() => setToggle(!toggle)
 
@@ -55,6 +67,18 @@ function Navbar() {
     navigate('/app/my-bookings')
   }
 
+  function showPendingPayments(){
+    navigate('/app/pending-payments')
+  }
+
+  function showPayments(){
+    navigate('/app/payment-history')
+  }
+
+  function showWallet(){
+    navigate('/wallet')
+  }
+
 
 
   
@@ -68,9 +92,18 @@ function Navbar() {
           <div className="hidden md:flex gap-4 ml-auto">
             <ul className="flex gap-4">
               {!is_worker && (
-                <li className="text-blue-500 hover:bg-blue-300 cursor-pointer rounded-full" onClick={showBookings}>My bookings</li>
+                <>
+                <li className="text-blue-500 hover:border-b-2 border-green-500 cursor-pointer animate-bounce animate-thrice animate-ease-in-out" onClick={showPendingPayments} >New payment
+                {newPaymentsCount > 0 && (
+                      <span className="bg-red-500 text-white font-bold rounded-full ml-1 px-2 ">{newPaymentsCount}</span>
+                    )}</li>
+                <li className="text-blue-500 hover:border-b-2 border-green-500 cursor-pointer" onClick={showBookings}>My bookings</li>
+                <li className="text-blue-500 hover:border-b-2 border-green-500 cursor-pointer" onClick={showPayments}>My Payments</li>
+                </>
               )}
-              <li className="text-blue-500 hover:bg-blue-300  cursor-pointer rounded-full">Profile</li>
+              {is_worker && (
+              <li className="text-blue-500 hover:border-b-2 border-green-500 cursor-pointer" onClick={showWallet}>Wallet</li>
+              )}
             </ul>
           </div>
         )}
@@ -84,7 +117,7 @@ function Navbar() {
               title={greeting}
             />
             <button onClick={handleLogout} className="rounded-lg">
-              <img src={userLogoutLogo} alt="" className="w-20 h-20 rounded-full hover:bg-blue-300" />
+              <img src={userLogoutLogo} alt="" className="w-14 h-14 rounded-full hover:border-b-2 border-red-500 cursor-pointer" />
             </button>
           </div>
         )}
@@ -98,6 +131,7 @@ function Navbar() {
         <div className={toggle ? "absolute z-10 p-4 bg-white w-full px-8 md:hidden" : "hidden"}>
           <ul>
             <li className="p-4 hover:bg-blue-100" onClick={showBookings}>My bookings</li>
+            <li className="p-4 hover:bg-blue-100" onClick={showPendingPayments}>New payment</li>
             <li className="p-4 hover:bg-blue-100">Profile</li>
             <div>
               <button onClick={handleLogout} className="rounded-lg">

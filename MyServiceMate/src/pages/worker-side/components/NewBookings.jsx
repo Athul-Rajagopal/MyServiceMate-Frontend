@@ -5,6 +5,7 @@ import { selectUserData } from '../../../redux/AuthSlice';
 import { useSelector } from 'react-redux';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
 import { theme } from '../../../theme/Theme';
+import Loader from '../../../components/Loader';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -19,50 +20,63 @@ function NewBookings() {
     const {accessToken,userId} = userData
     const axiosInstance = AxiosInstance(accessToken)
     const [bookings, setBookings] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         // Replace 'workerId' with the actual worker ID
         
         // Make an API request to fetch pending bookings for the worker
+        setLoading(true)
         axiosInstance.get(`/pending-bookings/${userId}/`)
           .then((response) => {
             setBookings(response.data);
+            setLoading(false)
           })
           .catch((error) => {
             console.error('Error fetching pending bookings:', error);
+            setLoading(false)
           });
       }, []);
 
       const handleAcceptClick = (bookingId) => {
+        setLoading(true)
         // Make an API request to update the booking's is_accepted status
         axiosInstance.post(`/accept-booking/${bookingId}/`,{ timeout: 10000 })
         .then((response) => {
           // Update the local state to remove the rejected booking
           const updatedBookings = bookings.filter((booking) => booking.id !== bookingId);
           setBookings(updatedBookings);
+          setLoading(false)
         })
         .catch((error) => {
           console.error('Error rejecting booking:', error);
+          setLoading(false)
         });
       };
 
      
       const handleRejectClick = (bookingId) => {
+        setLoading(true)
         // Make an API request to delete the booking
         axiosInstance.post(`/reject-booking/${bookingId}/`,{ timeout: 10000 })
           .then((response) => {
             // Update the local state to remove the rejected booking
             const updatedBookings = bookings.filter((booking) => booking.id !== bookingId);
             setBookings(updatedBookings);
+            setLoading(false)
           })
           .catch((error) => {
             console.error('Error rejecting booking:', error);
+            setLoading(false)
           });
       };
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle />
-      <div className="md:pl-20 md:pr-20 mb-6 mt-8">
+      {loading ? (
+          <Loader /> // Render the Loader component while loading is true
+        ) : (
+      <div className="md:pl-20 md:pr-20 mb-6 mt-8 h-[500px] overflow-y-auto">
         {bookings.map((booking) => (
           <div className="md:flex shadow-2xl bg-white overflow-hidden rounded-lg mb-4 p-4" key={booking.id}>
             <div className="md:w-1/5">
@@ -91,6 +105,7 @@ function NewBookings() {
           </div>
         ))}
       </div>
+       )}
     </ThemeProvider>
   )
 }

@@ -6,10 +6,10 @@ import { useSelector,useDispatch } from 'react-redux';
 import { selectUserData } from '../../../redux/AuthSlice';
 import { setSelectedDate } from '../../../redux/BookingReducer';
 import { useNavigate } from 'react-router-dom';
-// import { submitBooking } from '../../../redux/bookingThunks';
 import AxiosInstance from '../../../axios/axiosInstance';
 import { toast } from 'react-toastify';
 import Modal from 'react-modal'
+import Loader from '../../../components/Loader';
 
 
 const GlobalStyle = createGlobalStyle`
@@ -42,6 +42,7 @@ function SlotBooking({workerId}) {
     const [issue, setIssue] = useState('');
     const axiosInstance = AxiosInstance(accessToken);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    // const [loading, setLoading] = useState(true);
 
 
 
@@ -55,6 +56,7 @@ function SlotBooking({workerId}) {
     console.log(selectedDate)
 
     const handleFormSubmit = (e) =>{
+      
         e.preventDefault();
         if (!selectedDate) {
             // Handle the case where selectedDate is not available.
@@ -70,10 +72,12 @@ function SlotBooking({workerId}) {
             userId:userId,
             workerId:workerId,
           };
-
+          
+          // setLoading(true)
           axiosInstance.post('/submit-booking', dataToSend, { timeout: 10000 })
           .then((response) => {
             console.log(response.data);
+            // setLoading(false)
             setIsModalOpen(true); // Use the navigate function to redirect
           })
           .catch((error) => {
@@ -84,12 +88,16 @@ function SlotBooking({workerId}) {
               // Handle the error when response or response.data is undefined
               toast.error('An error occurred. Please try again.'); // Provide a generic error message
             }
+            // setLoading(false)
             console.log(error);
           });
     }
   return (
     <ThemeProvider theme={theme}>
     <GlobalStyle />
+    {/* {loading ? (
+          <Loader /> // Render the Loader component while loading is true
+        ) : ( */}
     <div className="flex justify-between">
         <div style={{ flex: 1, backgroundColor: 'white' }}>
           <SimpleCalendar Id={workerId} flag={1} />
@@ -129,6 +137,7 @@ function SlotBooking({workerId}) {
           </div>
         </form>
     </div>
+        {/* )} */}
     <Modal
         isOpen={isModalOpen}
         onRequestClose={() => setIsModalOpen(false)}

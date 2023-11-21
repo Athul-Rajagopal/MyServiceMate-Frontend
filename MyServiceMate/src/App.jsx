@@ -3,7 +3,7 @@ import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import LandingPage from './pages/LandingPage';
 import SigninPage from './pages/SigninPage';
 import SingupPage from './pages/SingupPage';
-import OTPSignup from './components/OtpSignup';
+import OTPSignup from './components/OTPSignup';
 import LocationSelectionPage from './pages/LocationSelectionPage';
 import UserHomePage from './pages/user-side/UserHomePage';
 import WorkerHomePage from './pages/worker-side/WorkerHomePage';
@@ -29,7 +29,11 @@ import UserChat from './pages/user-side/UserChat';
 import WorkerChat from './pages/worker-side/WorkerChat';
 import ForgotPassword from './components/ForgotPassword';
 import WorkerReviews from './pages/admin-side/components/WorkerReviews';
-
+import PendingPaymentsPage from './pages/user-side/PendingPaymentsPage';
+import PaymentSuccess from './pages/user-side/components/paymentSuccess';
+import PaymentHistoryPage from './pages/user-side/PaymentHistoryPage';
+import WorkerWallet from './pages/worker-side/components/WorkerWallet';
+import TransactionsPage from './pages/admin-side/TransactionsPage';
 
 
 function App() {
@@ -51,6 +55,9 @@ function App() {
           <Route path="app/worker-details/:workerId" element={<WorkerDetails />} />
           <Route path='app/my-bookings' element={<UserBookingListPage/>} />
           <Route path='app/chat/:userId/:workerId' element={<UserChat/>} />
+          <Route path='app/pending-payments' element={<PendingPaymentsPage/>} />
+          <Route path='app/payment-success' element={<PaymentSuccess/>} />
+          <Route path='app/payment-history' element={<PaymentHistoryPage/>} />
              
           
           <Route path='/worker-home' element={<WorkerHomePage/>} /> 
@@ -60,6 +67,7 @@ function App() {
           <Route path='/new-bookings' element={<PendingBookingsPage/>} />
           <Route path='/my-bookings' element={<IncompletedBookingsPage/>} />
           <Route path='/chat/:userId' element={<WorkerChat/>} />
+          <Route path='/wallet' element={<WorkerWallet/>} />
 
 
           <Route path='/admin' element={<SigninPage/>} />
@@ -73,6 +81,7 @@ function App() {
           <Route path='/worker-bookings/:workerId' element={<WorkerBookings/>} />
           <Route path='/user-bookings/:userId' element={<UserBookings/>} />
           <Route path="/worker-reviews/:workerId" element={<WorkerReviews />} />
+          <Route path='/transactions' element={<TransactionsPage/>} />
           
 
 

@@ -6,11 +6,17 @@ import { useSelector } from 'react-redux';
 import AxiosInstance from '../axios/axiosInstance';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
 import { theme } from '../theme/Theme';
+import locationImage from '../assets/location-symbol-with-building.jpg'
 
 const GlobalStyle = createGlobalStyle`
   body {
-    background-color: ${theme.primaryColor};
-    color: ${theme.textColor};
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 0;
+    background-image: url(${locationImage});
+    background-size: cover;
+    background-position: center;
   }
 `;
 
@@ -42,7 +48,7 @@ function LocationSelectionPage() {
   };
   return (
     <ThemeProvider theme={theme}>
-      <GlobalStyle />
+      <GlobalStyle/>
       <div className="flex flex-col min-h-screen">
         <Navbar />
         <div className="flex-grow flex items-center justify-center">
@@ -50,7 +56,9 @@ function LocationSelectionPage() {
             <LocationDropdown onSelectLocation={handleLocationSelect} />
           </div>
         </div>
+        <div>
         <Footer />
+        </div>
       </div>
     </ThemeProvider>
   )

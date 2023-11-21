@@ -12,6 +12,7 @@ import { selectUserData } from '../../../redux/AuthSlice';
 import AxiosInstance from '../../../axios/axiosInstance';
 import userImage from '../../../assets/userImage.jpg'
 
+
 const GlobalStyle = createGlobalStyle`
   body {
     background-color: ${theme.primaryColor};

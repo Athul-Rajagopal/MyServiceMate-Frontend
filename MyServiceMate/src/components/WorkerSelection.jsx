@@ -26,15 +26,15 @@ function WorkerSelection() {
     <ThemeProvider theme={theme}>
     <GlobalStyle />
     <>
-      <div className="flex justify-center mt-5">
-        <div className="flex md:w-[840px] w-full flex-wrap md:justify-between gap-3 p-3 max-h-[500px] overflow-y-auto">
+      <div className="flex justify-center mt-5 md:mt-10 h-[500px] overflow-y-auto">
+        <div className="flex md:w-[840px] w-full flex-wrap md:justify-between gap-3 p-3 max-h-[500px] overflow-y-auto text-center ">
           {workers.map((worker) => (
             <div className="md:w-96 w-full">
               <div
                 className="max-w-sm rounded pl-4 overflow-hidden shadow-lg bg-white"
                 key={worker.worker_id}
               >
-                <div className="flex justify-center">
+                <div className="flex justify-center mt-2">
                   <img
                     className="w-[100px] h-[100px]"
                     src={workerImage}

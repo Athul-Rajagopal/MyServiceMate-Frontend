@@ -6,6 +6,7 @@ import { createGlobalStyle, ThemeProvider } from 'styled-components';
 import { theme } from '../theme/Theme';
 import { fetchWorkers } from '../redux/WorkerActions';
 import { useDispatch } from 'react-redux';
+import Loader from './Loader';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -22,17 +23,21 @@ function UserHome({ locationId }) {
   const [workersList, setWorkersList] = useState([])
   const [selectedService, setSelectedService] = useState('');
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // Fetch services based on the selected location
     if (locationId) {
+      setLoading(true);
       axios.get(`http://127.0.0.1:8000/api/services/${locationId}/`)
         .then((response) => {
           setServices(response.data);
           console.log(response.data)
+          setLoading(false)
         })
         .catch((error) => {
           console.error('Error fetching services:', error);
+          setLoading(false)
         });
     }
   }, [locationId]);
@@ -60,6 +65,9 @@ function UserHome({ locationId }) {
   return (
     <ThemeProvider theme={theme}>
     <GlobalStyle />
+    {loading ? (
+    <Loader /> // Render the Loader component while loading is true
+  ) : (
     <>
       <div className="flex justify-end items-center mt-2 mr-4">
         <LocationDropdown onSelectLocation={handleLocationSelect} />
@@ -69,7 +77,7 @@ function UserHome({ locationId }) {
           {services.map((service) => (
             <div className="md:w-96 w-full">
               <div
-                className="max-w-sm rounded pl-4 overflow-hidden shadow-lg bg-white"
+                className="max-w-sm rounded pl-4 overflow-hidden shadow-lg bg-white text-center"
                 key={service.id}
               >
                 <div className="flex justify-center">
@@ -93,7 +101,9 @@ function UserHome({ locationId }) {
           ))}
         </div>
       </div>
+      
     </>
+    )}
   </ThemeProvider>
   );
 }

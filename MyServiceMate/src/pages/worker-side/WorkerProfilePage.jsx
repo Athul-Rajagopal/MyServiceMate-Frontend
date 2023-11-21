@@ -18,7 +18,7 @@ function WorkerProfilePage() {
       <GlobalStyle />
       <div>
         <Navbar />
-        <div className="w-full p-16">
+        <div className="w-full ">
           <WorkerProfile />
         </div>
         <Footer />

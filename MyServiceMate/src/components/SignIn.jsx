@@ -6,11 +6,12 @@ import { useSelector } from 'react-redux';
 import AxiosInstance from '../axios/axiosInstance'
 import { login } from '../redux/AuthSlice'
 import { selectUserData } from '../redux/AuthSlice'
+import Loader from './Loader';
 
 function SignIn() {
   const [isWorker,setIsWorker] = useState(false)
   const userType = new URLSearchParams(useLocation().search).get('type');
-
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
@@ -46,6 +47,7 @@ function SignIn() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      setLoading(true)
       const response = await axiosInstance.post('/token/', formData);
   
       if (response.status === 200) {
@@ -123,11 +125,17 @@ function SignIn() {
       console.error('Authentication failed:', error);
       alert("Authentication failed. Please try again.");
     }
+    finally {
+      setLoading(false);  // Set loading to false after the request is complete
+    }
   };
 
 
   return (
     <div >
+      {loading ? (
+        <Loader />  // Render the Loader component while loading is true
+      ) : (
     <div className="w-full max-w-md">
   <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
     <div className="mb-4">
@@ -169,12 +177,13 @@ function SignIn() {
 
     </div>
     <Link to={`/signup?type=${userType}`}>
-    <button className="mt-5 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+    <p className="mt-5   text-blue-500 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="text">
         Sign Up
-      </button>
+      </p>
     </Link>
   </form>
 </div>
+)}
 </div>
   )
 }

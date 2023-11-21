@@ -41,7 +41,7 @@ function LocationDropdown({ onSelectLocation }) {
       value={selectedLocation}
       className="block w-full bg-white border border-gray-300 p-2 rounded-md shadow-sm focus:outline-none focus:border-blue-400"
     >
-      <option value="">Select a location</option>
+      <option value="" >Select a location</option>
       {locations.map((location) => (
         <option key={location.id} value={location.id}>
           {location.locations}

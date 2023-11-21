@@ -5,6 +5,7 @@ import { selectUserData } from '../../redux/AuthSlice';
 import { Footer, Navbar } from '../../components';
 import PhoneNumberModal from './modal/PhoneNumberModal';
 import { useNavigate } from 'react-router-dom';
+import Loader from '../../components/Loader';
 
 function ServiceSelectionPage() {
     const [services, setServices] = useState([]);
@@ -17,17 +18,21 @@ function ServiceSelectionPage() {
     const [selectedPhoneNumber, setSelectedPhoneNumber] = useState('');
     const navigate = useNavigate();
     const [conflictMessage, setConflictMessage] = useState('');
+    const [loading, setLoading] = useState(true); 
 
     console.log(selectedServices)
 
     useEffect(() => {
+      setLoading(true)
         // Fetch services based on the selected location
              axiosInstance.get(`/select-service/`)
             .then((response) => {
               setServices(response.data);
+              setLoading(false)
               console.log(response.data)
             })
             .catch((error) => {
+              setLoading(false)
               console.error('Error fetching services:', error);
             });
         
@@ -54,22 +59,27 @@ function ServiceSelectionPage() {
       }
       
       const handleDoneClick = () => {
+        setLoading(true)
         // Send the selected fields to the backend
         const selectedFieldIds = selectedServices.map((service) => service.id);
         axiosInstance
           .post('set-field-of-expertice/', { fields: selectedFieldIds })
           .then((response) => {
             if(is_approved){
+
+              setLoading(false)
               console.log('Selected fields stored successfully:', response.data);
               navigate('/worker-home')
             }
             else{
+              setLoading(false)
             console.log('Selected fields stored successfully:', response.data);
             // Show the mobile number modal
             setPhoneNumberModalOpen(true);
             }
           })
           .catch((error) => {
+            setLoading(false)
             console.error('Error storing selected fields:', error);
             if (error.response && error.response.status === 409) {
               // Conflict occurred, set the conflict message
@@ -78,14 +88,18 @@ function ServiceSelectionPage() {
           });
       };
 
-      const handlePhoneNumberSave = (phoneNumber) => {axiosInstance
+      const handlePhoneNumberSave = (phoneNumber) => {
+        setLoading(true)
+        axiosInstance
         .patch('edit-phone-number/', { phone: phoneNumber })
         .then((response) => {
           console.log('Phone number updated successfully:', response.data);
           setPhoneNumberModalOpen(false); // Close the modal
+          setLoading(false)
           navigate('/profile-created');
         })
         .catch((error) => {
+          setLoading(false)
           console.error('Error updating phone number:', error);
           // Handle the error, e.g., show an error message
         });
@@ -95,10 +109,12 @@ function ServiceSelectionPage() {
     
   return (
     <div>
-        
         <Navbar />
+  
         <div className='flex justify-center mt-5'>
-        {conflictMessage && (
+        {loading && <div ><Loader/></div>}
+
+        {conflictMessage && !loading && (
             <div className="text-red-500 font-semibold">{conflictMessage}</div>
         )}
         </div>
@@ -121,6 +137,7 @@ function ServiceSelectionPage() {
       <button className='bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 border border-gray-400 rounded shadow'
       onClick={handleDoneClick}>DONE</button>
       </div>
+      
       <div className='flex justify-center mt-5'>
       <PhoneNumberModal
           isOpen={isPhoneNumberModalOpen}

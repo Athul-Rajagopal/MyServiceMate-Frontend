@@ -9,6 +9,7 @@ import { useParams } from 'react-router-dom';
 import { Footer, Navbar } from '../../../components';
 import AdminNavbar from './AdminNavbar';
 import Sidebar from './Sidebar';
+import Pagination from '../../../components/Pagination';
 
 
 const GlobalStyle = createGlobalStyle`
@@ -26,6 +27,8 @@ function UserBookings() {
     const axiosInstance = AxiosInstance(accessToken)
     const [selectedFilter, setSelectedFilter] = useState('All');
     const [bookings, setBookings] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const bookingsPerPage = 8;
 
     useEffect(() => {
         // Replace 'workerId' with the actual worker ID
@@ -33,7 +36,8 @@ function UserBookings() {
         // Make an API request to fetch pending bookings for the worker
         axiosInstance.get(`/user-bookings/${userId}/`)
           .then((response) => {
-            setBookings(response.data);
+            const sortedBookings = response.data.sort((a, b) => new Date(b.date) - new Date(a.date));
+            setBookings(sortedBookings);
             console.log(response.data)
           })
           .catch((error) => {
@@ -41,10 +45,17 @@ function UserBookings() {
           });
       }, []);
 
+
+      const indexOfLastBooking = currentPage * bookingsPerPage;
+      const indexOfFirstBooking = indexOfLastBooking - bookingsPerPage;
+      const currentBookings = bookings.slice(indexOfFirstBooking, indexOfLastBooking);
+
+      const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
       const filteredBookings = (status) => {
         switch (status) {
           case 'Pending':
-            return bookings.filter((booking) => !booking.is_accepted);
+            return bookings.filter((booking) => !booking.is_accepted && !booking.is_rejected && !booking.is_completed);
           case 'Accepted':
             return bookings.filter((booking) => booking.is_accepted && !booking.is_completed);
           case 'Completed':
@@ -101,6 +112,14 @@ function UserBookings() {
               </div>
             </div>
           ))}
+
+           {/* Pagination */}
+           <Pagination
+              itemsPerPage={bookingsPerPage}
+              totalItems={bookings.length}
+              paginate={paginate}
+              currentPage={currentPage}
+            />
         </div>
       </div>
       </div>

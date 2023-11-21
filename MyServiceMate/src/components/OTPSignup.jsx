@@ -5,6 +5,7 @@ import Navbar from './Navbar';
 import Footer from './Footer';
 import styled, { createGlobalStyle, ThemeProvider } from 'styled-components';
 import { theme } from '../theme/Theme';
+import Loader from './Loader';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -55,6 +56,7 @@ const OTPSignup = () => {
   const [otp, setOTP] = useState(['', '', '', '']);
   const otpFields = Array(4).fill(0);
   const otpInputRefs = otpFields.map(() => useRef(null));
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate()
   const [username,setusername] = useState('')
 
@@ -89,7 +91,7 @@ const OTPSignup = () => {
     // Combine the OTP digits and perform verification here.
     const combinedOTP = otp.join('');
     console.log('OTP is:', combinedOTP);
-
+    setLoading(true);
 
     try{
     // Define the API endpoint URL for OTP verification
@@ -106,6 +108,13 @@ const OTPSignup = () => {
         const type = response.data.is_worker ? 'worker' : 'user';
         navigate(`/signin?type=${type}`);
         })
+      
+      .catch((error) => {
+        console.error('OTP verification failed:', error);
+      })
+      .finally(() => {
+        setLoading(false);  // Set loading to false after the request is complete
+      });
     }
       catch{(error)=>{
         console.error('OTP verification failed:', error);
@@ -139,12 +148,16 @@ const OTPSignup = () => {
           ))}
         </div>
         <div className="text-center">
+        {loading ? (
+            <Loader />  // Render the Loader component while loading is true
+          ) : (
           <button
             className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg"
             onClick={handleVerifyOTP}
           >
             Verify OTP
           </button>
+           )}
         </div>
       </div>
 

@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useRef } from 'react';
 import Navbar from './Navbar';
 import { useNavigate } from 'react-router-dom';
+import Loader from './Loader';
 
 function ForgotPassword() {
     const [password,setPassword] = useState('');
@@ -12,6 +13,7 @@ function ForgotPassword() {
     const [username,setUsername] = useState('');
     const [showOTPModal, setShowOTPModal] = useState(false);
     const [otp, setOTP] = useState(['', '', '', '',]);
+    const [loading, setLoading] = useState(true);
     const navigate = useNavigate()
       const handleSubmit = async (e) =>{
         e.preventDefault();

@@ -1,6 +1,7 @@
 import React, {useState,useEffect} from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
+import Loader from './Loader';
 
 function Signup() {
     const [username,setUsername] = useState('');
@@ -9,7 +10,7 @@ function Signup() {
     const [confirmPassword,setConfirmPassword] = useState('');
     const [isWorker,setIsWorker] = useState(false)
     const [emailError, setEmailError] = useState('');
-
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate()
 
 
@@ -45,6 +46,7 @@ function Signup() {
         console.log(username,email,password,isWorker)
 
         try {
+          setLoading(true);
             const response = await axios.post('http://127.0.0.1:8000/api/signup/', user);
             console.log('Form submitted successfully:', response);
         
@@ -54,6 +56,9 @@ function Signup() {
             }
           } catch (error) {
             console.error('Form submission error:', error);
+          }
+          finally {
+            setLoading(false); // Set loading to false after the request is complete
           }
     }
 
@@ -65,6 +70,9 @@ function Signup() {
 
   return (
     <div>
+      {loading ? (
+        <Loader /> // Render the Loader component while loading is true
+      ) : (
         <div className="w-full max-w-xs">
   <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
 
@@ -130,6 +138,7 @@ function Signup() {
     </div>
   </form>
 </div>
+)}
     </div>
   )
 }

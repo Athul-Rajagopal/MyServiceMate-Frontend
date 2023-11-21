@@ -95,38 +95,44 @@ function Dashboard() {
     const chartOptions = {};
 
     return (
-        <>
-        <div className='flex w-full mt-5 ml-5'>
-          <div style={graphStyles} className='flex-grow w-[600px]'>
-            <h2>Booking Statistics Over Time</h2>
-            <Line data={chartData} options={chartOptions} />
-          </div>
-          <div className='w-[300px] border-solid border-2 h-[400px] shadow-sm ml-2'>
-            <h2>Services Provided</h2>
-            <Doughnut data={pieChartData} options={pieChartOptions} />
-          </div>
+      <>
+      <div>
+
+      <div className="flex gap-11 w-full mt-5 ml-5">
+        <div style={graphStyles} className="flex-grow w-[600px]">
+          <h2>Booking Statistics Over Time</h2>
+          <Line data={chartData} options={chartOptions} />
         </div>
-        <div className='flex mt-4 flex-col'>
-          <label>From Date</label>
-          <input
-            type='date'
-            value={fromDate}
-            onChange={(e) => setFromDate(e.target.value)}
-          />
-          <label>To Date</label>
-          <input
-            type='date'
-            value={toDate}
-            onChange={(e) => setToDate(e.target.value)}
-          />
-          <button
-            onClick={fetchData}
-            className='mt-2 bg-blue-500 text-white px-4 py-2 rounded'
-          >
-            Apply Filter
-          </button>
+        <div className="w-[300px] border-solid border-2 h-[400px] shadow-sm ml-2">
+          <h2>Services Provided</h2>
+          <Doughnut data={pieChartData} options={pieChartOptions} />
         </div>
-      </>
+      </div>
+
+      {/* Date Selection Div */}
+      <div className="flex mt-4 flex-col ml-5">
+        <label>From Date</label>
+        <input
+          type="date"
+          value={fromDate}
+          onChange={(e) => setFromDate(e.target.value)}
+        />
+        <label>To Date</label>
+        <input
+          type="date"
+          value={toDate}
+          onChange={(e) => setToDate(e.target.value)}
+        />
+        <button
+          onClick={fetchData}
+          className="mt-2 bg-blue-500 text-white px-4 py-2 rounded"
+        >
+          Apply Filter
+        </button>
+      </div>
+      </div>
+
+    </>
       
     );
 }

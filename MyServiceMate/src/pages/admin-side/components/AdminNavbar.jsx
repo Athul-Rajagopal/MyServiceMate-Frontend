@@ -73,9 +73,9 @@ function AdminNavbar() {
           
           <Link to={'/new-requests'} >
           {/* <li className=' rounded-full text-700 hover:bg-blue-100'> New requests</li> */}
-          <li className={location.pathname === '/new-requests' ? 'rounded-full text-700 bg-blue-50 text-blue-500' : 'rounded-full text-700 hover:bg-white'}>
+          <li className={location.pathname === '/new-requests' ? 'rounded-full text-700 bg-blue-50 text-blue-500' : 'rounded-full text-700 hover:bg-white '}>
             New requests
-            {newRequestsCount > 0 && <span className="ml-1 bg-red-500 text-white px-2 py-1 rounded-full">{newRequestsCount}</span>}</li>
+            {newRequestsCount > 0 && <span className="ml-1 bg-red-500 text-white px-2 py-1 rounded-full animate-pulse animate-thrice animate-ease-in-out">{newRequestsCount}</span>}</li>
           </Link>
         </ul>
       </div>

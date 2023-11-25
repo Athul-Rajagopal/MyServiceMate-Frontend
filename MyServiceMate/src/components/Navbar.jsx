@@ -79,6 +79,10 @@ function Navbar() {
     navigate('/wallet')
   }
 
+  function showTransactions(){
+    navigate('/worker-transactions')
+  }
+
 
 
   
@@ -102,7 +106,10 @@ function Navbar() {
                 </>
               )}
               {is_worker && (
+                <>
               <li className="text-blue-500 hover:border-b-2 border-green-500 cursor-pointer" onClick={showWallet}>Wallet</li>
+              <li className="text-blue-500 hover:border-b-2 border-green-500 cursor-pointer" onClick={showTransactions}>Transactions</li>
+              </>
               )}
             </ul>
           </div>
@@ -130,9 +137,19 @@ function Navbar() {
       {isAuthenticated && (
         <div className={toggle ? "absolute z-10 p-4 bg-white w-full px-8 md:hidden" : "hidden"}>
           <ul>
-            <li className="p-4 hover:bg-blue-100" onClick={showBookings}>My bookings</li>
-            <li className="p-4 hover:bg-blue-100" onClick={showPendingPayments}>New payment</li>
-            <li className="p-4 hover:bg-blue-100">Profile</li>
+          {!is_worker && (
+                <>
+                <li className="text-blue-500 hover:border-b-2 border-green-500 cursor-pointer animate-bounce animate-thrice animate-ease-in-out" onClick={showPendingPayments} >New payment
+                {newPaymentsCount > 0 && (
+                      <span className="bg-red-500 text-white font-bold rounded-full ml-1 px-2 ">{newPaymentsCount}</span>
+                    )}</li>
+                <li className="text-blue-500 hover:border-b-2 border-green-500 cursor-pointer" onClick={showBookings}>My bookings</li>
+                <li className="text-blue-500 hover:border-b-2 border-green-500 cursor-pointer" onClick={showPayments}>My Payments</li>
+                </>
+              )}
+              {is_worker && (
+              <li className="text-blue-500 hover:border-b-2 border-green-500 cursor-pointer" onClick={showWallet}>Wallet</li>
+              )}
             <div>
               <button onClick={handleLogout} className="rounded-lg">
                 <img src={userLogoutLogo} alt="" className="w-20 h-20 rounded-full hover:text-red-500" />

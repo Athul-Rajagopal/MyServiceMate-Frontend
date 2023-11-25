@@ -1,7 +1,8 @@
 import React ,{useEffect} from 'react';
 import { useSelector } from 'react-redux';
 import { selectUserData } from '../redux/AuthSlice'
-import { Navigate } from 'react-router-dom';
+import { Navigate, Routes } from 'react-router-dom';
+import { Route} from 'react-router-dom';
 
 
 
@@ -23,6 +24,18 @@ function ProtectedSignInRoute({ element }) {
 }
 
 export default ProtectedSignInRoute 
+
+
+export function ProtectedRoute({ element }) {
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+
+  if (isAuthenticated) {
+    return element;
+  } else {
+    // Return the Navigate element
+    return <Navigate to="/" />;
+  }
+}
 
 
 

@@ -17,10 +17,10 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-function Transactions() {
+function WorkerTransactions() {
     const[transaction, setTransaction] = useState([])
     const userData = useSelector(selectUserData)
-    const {accessToken} = userData
+    const {accessToken, userId} = userData
     const axiosInstance = AxiosInstance(accessToken)
     const [loading, setLoading] = useState(true)
     const [currentPage, setCurrentPage] = useState(1);
@@ -28,7 +28,7 @@ function Transactions() {
 
     useEffect(()=>{
         setLoading(true)
-        axiosInstance.get('transactions/').then((response)=>{
+        axiosInstance.get(`worker-transactions/${userId}/`).then((response)=>{
             setTransaction(response.data)
             setLoading(false)
             console.log(response.data)
@@ -57,7 +57,7 @@ function Transactions() {
               </div>
               <div className="md:w-2/5 p-4">
                 <p className="text-xl text-[#051570] font-semibold">User Name: {transaction.user.username}</p>
-                <p className="text-xl text-[#051570] font-semibold">worker Name: {transaction.worker.username}</p>
+                <p className="text-xl text-[#051570] font-semibold">Transaction ID: {transaction.payment_id}</p>
                 <p className="text-[#bc501b] font-bold">Amount: {transaction.amount}</p>
                 <p className="text-[#bc501b] font-bold">Booking id: {transaction.Bookings.id}</p>
               </div>
@@ -83,4 +83,4 @@ function Transactions() {
   )
 }
 
-export default Transactions
+export default WorkerTransactions

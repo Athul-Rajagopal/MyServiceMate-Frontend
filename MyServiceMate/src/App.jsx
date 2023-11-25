@@ -34,6 +34,9 @@ import PaymentSuccess from './pages/user-side/components/paymentSuccess';
 import PaymentHistoryPage from './pages/user-side/PaymentHistoryPage';
 import WorkerWallet from './pages/worker-side/components/WorkerWallet';
 import TransactionsPage from './pages/admin-side/TransactionsPage';
+import AdminWallet from './pages/admin-side/components/AdminWallet';
+import {ProtectedRoute } from './private routes/PrivateRoute';
+import WorkerTransactionPage from './pages/worker-side/WorkerTransactionPage';
 
 
 function App() {
@@ -49,25 +52,28 @@ function App() {
           <Route path='/signup' element={<SingupPage/>} />
           <Route path='/otp' element={<OTPSignup/>} />
           
-          <Route path="app/location" element={<LocationSelectionPage />} />
-          <Route path="app/User-home/:locationId" element={<UserHomePage />} />
-          <Route path='app/workers' element={<WorkerSelectionPage/>} />
-          <Route path="app/worker-details/:workerId" element={<WorkerDetails />} />
-          <Route path='app/my-bookings' element={<UserBookingListPage/>} />
-          <Route path='app/chat/:userId/:workerId' element={<UserChat/>} />
-          <Route path='app/pending-payments' element={<PendingPaymentsPage/>} />
-          <Route path='app/payment-success' element={<PaymentSuccess/>} />
-          <Route path='app/payment-history' element={<PaymentHistoryPage/>} />
+          {/* <Route path="app/location" element={<LocationSelectionPage />} /> */}
+          <Route path='/app/location' element={<ProtectedRoute element={<LocationSelectionPage />} />} />
+          
+          <Route path="/app/User-home/:locationId" element={<ProtectedRoute element={<UserHomePage />} />} />
+          <Route path='/app/workers' element={<ProtectedRoute element={<WorkerSelectionPage/>} />} />
+          <Route path="/app/worker-details/:workerId" element={<ProtectedRoute element={<WorkerDetails/>}  />} />
+          <Route path='/app/my-bookings' element={<ProtectedRoute element={<UserBookingListPage/>} />} />
+          <Route path='/app/chat/:userId/:workerId' element={<ProtectedRoute element={<UserChat/>} />} />
+          <Route path='/app/pending-payments' element={<ProtectedRoute element={<PendingPaymentsPage/>} />} />
+          <Route path='/app/payment-success' element={<ProtectedRoute element={<PaymentSuccess/>} />} />
+          <Route path='/app/payment-history' element={<ProtectedRoute element={<PaymentHistoryPage/>} />} />
              
           
-          <Route path='/worker-home' element={<WorkerHomePage/>} /> 
-          <Route path="/location" element={<LocationSelectionPage />} />
-          <Route path='/service-selection' element={<ServiceSelectionPage/>} />
-          <Route path='/profile-created' element={<ProfileCreationSuccesfulPage/>} />
-          <Route path='/new-bookings' element={<PendingBookingsPage/>} />
-          <Route path='/my-bookings' element={<IncompletedBookingsPage/>} />
-          <Route path='/chat/:userId' element={<WorkerChat/>} />
-          <Route path='/wallet' element={<WorkerWallet/>} />
+          <Route path='/worker-home' element={<ProtectedRoute element={<WorkerHomePage/>} />} /> 
+          <Route path="/location" element={<ProtectedRoute element={<LocationSelectionPage/>}  />} />
+          <Route path='/service-selection' element={<ProtectedRoute element={<ServiceSelectionPage/>} />} />
+          <Route path='/profile-created' element={<ProtectedRoute element={<ProfileCreationSuccesfulPage/>} />} />
+          <Route path='/new-bookings' element={<ProtectedRoute element={<PendingBookingsPage/>} />} />
+          <Route path='/my-bookings' element={<ProtectedRoute element={<IncompletedBookingsPage/>} />} />
+          <Route path='/chat/:userId' element={<ProtectedRoute element={<WorkerChat/>} />} />
+          <Route path='/wallet' element={<ProtectedRoute element={<WorkerWallet/>} />} />
+          <Route path='/worker-transactions' element={<ProtectedRoute element={<WorkerTransactionPage/>} />} />
 
 
           <Route path='/admin' element={<SigninPage/>} />
@@ -82,6 +88,7 @@ function App() {
           <Route path='/user-bookings/:userId' element={<UserBookings/>} />
           <Route path="/worker-reviews/:workerId" element={<WorkerReviews />} />
           <Route path='/transactions' element={<TransactionsPage/>} />
+          <Route path='/admin-wallet' element={<AdminWallet/>} />
           
 
 

@@ -30,7 +30,7 @@ import WorkerChat from './pages/worker-side/WorkerChat';
 import ForgotPassword from './components/ForgotPassword';
 import WorkerReviews from './pages/admin-side/components/WorkerReviews';
 import PendingPaymentsPage from './pages/user-side/PendingPaymentsPage';
-import PaymentSuccess from './pages/user-side/components/paymentSuccess';
+import PaymentSuccess from './pages/user-side/components/PaymentSuccess';
 import PaymentHistoryPage from './pages/user-side/PaymentHistoryPage';
 import WorkerWallet from './pages/worker-side/components/WorkerWallet';
 import TransactionsPage from './pages/admin-side/TransactionsPage';

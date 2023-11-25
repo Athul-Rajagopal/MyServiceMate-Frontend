@@ -29,7 +29,7 @@ function UserHome({ locationId }) {
     // Fetch services based on the selected location
     if (locationId) {
       setLoading(true);
-      axios.get(`http://127.0.0.1:8000/api/services/${locationId}/`)
+      axios.get(`https://myservicemate.online/api/services/${locationId}/`)
         .then((response) => {
           setServices(response.data);
           console.log(response.data)
@@ -83,7 +83,7 @@ function UserHome({ locationId }) {
                 <div className="flex justify-center">
                   <img
                     className="w-[150px] h-[150px]"
-                    src={`http://127.0.0.1:8000${service.image}`}
+                    src={`https://myservicemate.online${service.image}`}
                     alt={service.services}
                   />
                 </div>

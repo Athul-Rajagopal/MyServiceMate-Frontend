@@ -34,7 +34,7 @@ function ForgotPassword() {
         console.log(username,password)
 
         try {
-            const response = await axios.post('http://127.0.0.1:8000/api/forgot-password/', user);
+            const response = await axios.post('http://myservicemate.online/api/forgot-password/', user);
             console.log('Form submitted successfully:', response);
         
             if (response.status === 200) {
@@ -72,7 +72,7 @@ function ForgotPassword() {
     
         try{
         // Define the API endpoint URL for OTP verification
-        const apiUrl = 'http://127.0.0.1:8000/api/reset-password'; // Replace with your backend API URL for OTP verification
+        const apiUrl = 'http://myservicemate.online/api/reset-password'; // Replace with your backend API URL for OTP verification
     
         // Make a POST request to the backend to verify the OTP
         axios.post(apiUrl, { 'otp': combinedOTP, 'username':username, 'password':password, })

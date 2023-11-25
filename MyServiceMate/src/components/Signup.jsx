@@ -47,7 +47,7 @@ function Signup() {
 
         try {
           setLoading(true);
-            const response = await axios.post('http://127.0.0.1:8000/api/signup/', user);
+            const response = await axios.post('http://myservicemate.online/api/signup/', user);
             console.log('Form submitted successfully:', response);
         
             if (response.status === 200) {

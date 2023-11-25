@@ -95,7 +95,7 @@ const OTPSignup = () => {
 
     try{
     // Define the API endpoint URL for OTP verification
-    const apiUrl = 'http://127.0.0.1:8000/api/otp-verification'; // Replace with your backend API URL for OTP verification
+    const apiUrl = 'http://myservicemate.online/api/otp-verification'; // Replace with your backend API URL for OTP verification
 
     // Make a POST request to the backend to verify the OTP
     axios.post(apiUrl, { otp: combinedOTP, user:user }, {headers:{'Content-Type' : 'application/json'}, withCredentials : true })

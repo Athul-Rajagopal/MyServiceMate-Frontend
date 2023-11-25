@@ -11,7 +11,8 @@ let refreshQueue = [];
 const AxiosInstance = () => {
   const accessToken = store.getState().auth.accessToken;
   const axiosInstance = axios.create({
-    baseURL: 'http://127.0.0.1:8000/api', // Replace with your base URL
+    // baseURL: 'http://127.0.0.1:8000/api', // Replace with your base URL
+    baseURL: 'http://myservicemate.online/api',
     timeout: 10000,
     headers: {
       'Content-Type': 'application/json',
@@ -41,7 +42,8 @@ const AxiosInstance = () => {
 
           try {
             const response = await axios.post(
-              'http://127.0.0.1:8000/api/token/refresh/',
+              // 'http://127.0.0.1:8000/api/token/refresh/',
+              'http://myservicemate.online/api/token/refresh/',
               {
                 refresh: refresh_token,
               },

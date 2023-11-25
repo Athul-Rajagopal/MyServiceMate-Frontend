@@ -132,7 +132,8 @@ function WorkerProfile() {
                   <div className="flex justify-center">
                     <img
                       className="w-[150px] h-[150px] stroke-white object-cover object-center"
-                      src={`http://127.0.0.1:8000${service.image}`}
+                      // src={`http://127.0.0.1:8000${service.image}`}
+                      src={`http://myservicemate.online${service.image}`}
                       alt={service.services}
                     />
                   </div>

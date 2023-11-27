@@ -7,7 +7,8 @@ export const fetchWorkers = createAsyncThunk(
     async (payload, thunkAPI) => {
       try {
         // You can use the payload directly for the POST request
-        const response = await axios.post('http://127.0.0.1:8000/api/worker-list/', payload);
+        const response = await axios.post('https://myservicemate.online/api/worker-list/', payload);
+        console.log(response.data);
         return response.data;
       } catch (error) {
         // Use rejectWithValue to include the error message in the action payload

@@ -71,13 +71,18 @@ const confirmRemoveService = () => {
       <Sidebar />
       
       <div className="flex justify-center flex-wrap mt-10">
-        {services.map((service) => (
+        {services.map((service) =>{
+           const modifiedImageURL = service.image.replace(
+            'http://0.0.0.0:9090',
+            'https://myservicemate.online'
+          );
+          return (
           <div className="md:w-80 w-full" key={service.id}>
             <div className="max-w-xs m-2 overflow-hidden rounded-lg shadow-lg">
               <div className="px-6 py-4">
                 <img
                   className="w-[150px] h-[150px]"
-                  src={service.image}
+                  src={modifiedImageURL}
                   alt={service.services}
                 />
                 <h4 className="ml-5 mb-3 text-xl font-semibold tracking-tight text-gray-800">
@@ -98,8 +103,8 @@ const confirmRemoveService = () => {
               </div>
             </div>
           </div>
-          
-        ))}
+          );
+              })}
          <div className="max-w-sm rounded overflow-hidden shadow-lg md:w-80 w-full h-[250px] flex justify-center">
                 <Link to={'/add-service'}>
                   <div className='flex justify-center'>

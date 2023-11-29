@@ -83,6 +83,15 @@ function Navbar() {
     navigate('/worker-transactions')
   }
 
+  const handleLogoClick =()=>{
+    if (is_worker){
+      navigate('/worker-home')
+    }
+    else {
+      navigate('/app/location')
+    }
+  }
+
 
 
   
@@ -90,7 +99,7 @@ function Navbar() {
     <div className="w-full h-[96px] bg-gray-100 border-b shadow-lg">
       <div className="max-w-[1480px] mx-auto h-full flex justify-between items-center px-4">
 
-        <img src={logo} alt="logo" className="w-[200px] h-[95px]" />
+        <img src={logo} alt="logo" className="w-[200px] h-[95px]" onClick={handleLogoClick}/>
 
         {isAuthenticated && (
           <div className="hidden md:flex gap-4 ml-auto">

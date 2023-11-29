@@ -6,6 +6,7 @@ import AdminNavbar from './components/AdminNavbar';
 import Sidebar from './components/Sidebar';
 import { Link } from 'react-router-dom';
 import addItemLogo from '../../assets/addLogo.png'
+import { useNavigate } from 'react-router-dom';
 
 function ServiceManagement() {
   const [services, setServices] = useState([]);
@@ -14,6 +15,7 @@ function ServiceManagement() {
   const axiosInstance = AxiosInstance(accessToken);
   const [showConfirmation, setShowConfirmation] = useState(false); // State to manage the confirmation pop-up
   const [serviceToRemove, setServiceToRemove] = useState(null);
+  const navigate = useNavigate()
 
   useEffect(() => {
     // Fetch services based on the selected location
@@ -30,6 +32,7 @@ function ServiceManagement() {
 
   const handleEdit = (serviceId) => {
     // Implement the edit functionality
+    navigate(`/edit-service/${serviceId}/`)
     console.log(`Editing service with ID: ${serviceId}`);
   };
 
@@ -88,12 +91,12 @@ const confirmRemoveService = () => {
                 <h4 className="ml-5 mb-3 text-xl font-semibold tracking-tight text-gray-800">
                   {service.services}
                 </h4>
-                {/* <button
+                <button
                   onClick={() => handleEdit(service.id)}
                   className="bg-blue-500 rounded-xl hover:bg-blue-700 text-white font-semibold py-2 px-4 mr-3"
                 >
                   Edit
-                </button> */}
+                </button>
                 <button
                   onClick={() => handleRemove(service.id)}
                   className="bg-red-500 rounded-xl hover:bg-red-700 text-white font-semibold py-2 px-4"

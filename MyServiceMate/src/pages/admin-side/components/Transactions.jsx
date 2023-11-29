@@ -63,8 +63,16 @@ function Transactions() {
               </div>
               <div className="md:w-2/5 p-4">
                 <p className="text-xl text-[#195a03c5]">date: {moment(transaction.date).format('MMMM D, YYYY')}</p>
-                <p className="text-xl text-blue-500">paid date: {moment(transaction.payed_date_time).format('MMMM D, YYYY')}</p>
-                <p className="text-xl text-[#034a5ac5]">recieved date: {moment(transaction.received_date_time).format('MMMM D, YYYY')}</p>
+                <p className="text-xl text-blue-500">
+                  paid date: {transaction.payed_date_time
+                    ? moment(transaction.payed_date_time).format('MMMM D, YYYY')
+                    : 'Not Paid'}
+                </p>
+                <p className="text-xl text-[#034a5ac5]">
+                  received date: {transaction.received_date_time
+                    ? moment(transaction.received_date_time).format('MMMM D, YYYY')
+                    : 'Not Received'}
+                </p>
               </div>
             </div>
           ))}

@@ -131,6 +131,10 @@ const OTPSignup = () => {
     <Navbar/>
       
       <div className="w-full max-w-sm mx-auto mt-20  p-6 border rounded-lg shadow-xl bg-gray-300">
+      {loading ? (
+            <Loader />  // Render the Loader component while loading is true
+          ) : (
+            <>
         <h2 className="text-2xl font-semibold mb-4">OTP Verification</h2>
         <p>Enter the OTP sent to your email.</p>
         <div className="mb-4 flex justify-center">
@@ -148,17 +152,17 @@ const OTPSignup = () => {
           ))}
         </div>
         <div className="text-center">
-        {loading ? (
-            <Loader />  // Render the Loader component while loading is true
-          ) : (
+        
           <button
             className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg"
             onClick={handleVerifyOTP}
           >
             Verify OTP
           </button>
-           )}
+          
         </div>
+        </>
+         )}
       </div>
 
       <Footer/>

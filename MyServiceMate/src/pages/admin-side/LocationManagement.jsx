@@ -17,6 +17,10 @@ function LocationManagement() {
     const navigate = useNavigate()
     const [showConfirmation, setShowConfirmation] = useState(false); // State to manage the confirmation pop-up
     const [locationToRemove, setLocationToRemove] = useState(null);
+    const [edit,setEdit] = useState(false)
+    const [locationToEdit,setLocationToEdit] = useState(null)
+
+    console.log(locationToEdit)
 
     useEffect(() => {
         // Fetch the list of available locations from the backend
@@ -75,6 +79,33 @@ function LocationManagement() {
         }
     };
 
+    const handleEditLocation = (locationId) =>{
+        axiosInstance.get(`edit-location/${locationId}`).then((response)=>{
+            console.log(response.data);
+            setNewLocation(response.data.locations)
+            setLatitude(response.data.latitude)
+            setLongitude(response.data.longitude)
+            setEdit(true)
+            setLocationToEdit(locationId)
+        })
+    }
+
+    const handleBack = () =>{
+        setEdit(false)
+        setLatitude('')
+        setNewLocation('')
+        setLongitude('')
+        setLocationToEdit(null)
+    }
+
+    const handleEdit = () =>{
+        axiosInstance.put(`edit-location/${locationToEdit}`,{ locations: newLocation, latitude:newLatitude, longitude:newLongitude }).then((response)=>{
+            console.log(response.data);
+        }).catch((error)=>{
+            console.log(error);
+        })
+    }
+
       return (
         <div>
             <AdminNavbar />
@@ -85,7 +116,11 @@ function LocationManagement() {
                         <div key={location.id} className='flex justify-between mt-5'>
                             {location.locations}
                             <div>
-                                <button className="bg-red-500 rounded-xl hover:bg-red-700 text-white font-semibold py-2 px-4"
+                            <button className="bg-blue-500 rounded-xl hover:bg-blue-700 text-white font-semibold py-2 px-4"
+                            onClick={()=>handleEditLocation(location.id)}>
+                                Edit
+                            </button>
+                                <button className="ml-1 bg-red-500 rounded-xl hover:bg-red-700 text-white font-semibold py-2 px-4"
                                 onClick={() => handleRemoveLocation(location.id)}>
                                     Remove
                                 </button>
@@ -105,6 +140,7 @@ function LocationManagement() {
                                 name="location"
                                 placeholder="New Location"
                                 id="service-input"
+                                value={newLocation}
                                 onChange={(e) => setNewLocation(e.target.value)}
                                 required
                             />
@@ -117,6 +153,7 @@ function LocationManagement() {
                                 name="latitude"
                                 placeholder="latitude"
                                 id="latitude-input"
+                                value={newLatitude}
                                 onChange={(e) => setLatitude(e.target.value)}
                                 required
                             />
@@ -129,15 +166,28 @@ function LocationManagement() {
                                 name="longitude"
                                 placeholder="longitude"
                                 id="longitude-input"
+                                value={newLongitude}
                                 onChange={(e) => setLongitude(e.target.value)}
                                 required
                             />
                         </div>
                         <div className="text-right mt-3">
+                            { edit ? (<>
+                            <button className="bg-blue-500 rounded-xl hover:bg-blue-700 text-white font-semibold py-2 px-4"
+                            onClick={handleEdit}>
+                                Edit
+                            </button>
+                            <button className="ml-2 bg-blue-500 rounded-xl hover:bg-blue-700 text-white font-semibold py-2 px-4"
+                            onClick={handleBack}>
+                                back
+                            </button>
+                            </>) :
+                            (
                             <button className="bg-blue-500 rounded-xl hover:bg-blue-700 text-white font-semibold py-2 px-4"
                             onClick={handleAddLocation}>
                                 Add
                             </button>
+                            )}
                         </div>
                     </form>
                 </div>

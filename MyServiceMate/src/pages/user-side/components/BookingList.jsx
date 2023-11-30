@@ -24,6 +24,7 @@ function BookingList() {
     const [selectedFilter, setSelectedFilter] = useState('All');
     const [currentPage, setCurrentPage] = useState(1);
     const [loading, setLoading] = useState(true)
+    const [message, setMessage] = useState('');
     const bookingsPerPage = 8;
 
     useEffect(() => {
@@ -64,6 +65,21 @@ function BookingList() {
         }
       };
 
+      const cancelBooking = (bookingId) => {
+        axiosInstance
+          .post('/cancel-booking/', { booking_id: bookingId })
+          .then((response) => {
+            setMessage(response.data.message);
+          })
+          .catch((error) => {
+            if (error.response) {
+              setMessage(error.response.data.message);
+            } else {
+              setMessage('An error occurred while cancelling the booking.');
+            }
+          });
+      };
+
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle />
@@ -90,6 +106,9 @@ function BookingList() {
               <option value="Rejected">Rejected</option>
             </select>
           </div>
+          {message && (
+              <p className="bg-transparent text-red-700 py-2 px-4 rounded-md mb-4 text-center">{message}</p>
+            )}
           {filteredBookings(selectedFilter).map((booking) => (
             <div className="md:flex shadow-2xl bg-white overflow-hidden rounded-lg mb-4 p-4" key={booking.id}>
               <div className="md:w-1/5">
@@ -103,9 +122,17 @@ function BookingList() {
               <div className="md:w-1/5 p-4">
                 <p className="text-xl text-[#195a03c5]">Slot Selected: {booking.date}</p>
                 <p className="text-xl text-[#195a03c5]">
-                  Status: {booking.is_accepted ? 'Accepted' : booking.is_completed ? 'Completed' : booking.is_rejected ? 'Rejected' : 'Pending for acceptance'}
+                  Status: {booking.is_completed ? 'Completed' : booking.is_accepted ? 'Accepted' : booking.is_rejected ? 'Rejected' : 'Pending for acceptance'}
                 </p>
               </div>
+              <div className="md:w-1/5 p-4">
+                  <button
+                    className="bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded-md w-full"
+                    onClick={() => cancelBooking(booking.id)}
+                  >
+                    Cancel Booking
+                  </button>
+                </div>
             </div>
           ))}
 

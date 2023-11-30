@@ -76,7 +76,7 @@ function SimpleCalendar({ Id, flag }) {
   return (
     <div className="h-96 p-4 border border-gray-300 rounded-lg shadow-lg">
       <Calendar
-        className="w-[550px]"
+        className="w-[550px] overflow-hidden"
         value={date}
         onChange={handleDateClick}
         tileDisabled={({ date }) => isDateBeforeToday(date) || isDateBooked(date)}

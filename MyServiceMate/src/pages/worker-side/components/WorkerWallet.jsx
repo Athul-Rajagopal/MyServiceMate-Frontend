@@ -24,12 +24,16 @@ function WorkerWallet() {
 
     useEffect(()=>{
         axiosInstance.get(`worker-wallet/${userId}`)
-        .then((response)=>{
-            setWallet(response.data ? response.data.amount : 0);
-            setLoading(false);
-            console.log(response.data)
-        })
-    },[])
+        .then((response) => {
+          if (response.data && response.data.length > 0) {
+              setWallet(response.data[0].wallet_amount);
+          } else {
+              setWallet(0);
+          }
+          setLoading(false);
+          console.log(response.data);
+      })
+    },[userId, axiosInstance])
 
     const handleTransfer = () => {
         // Implement your transfer logic here
@@ -46,8 +50,8 @@ function WorkerWallet() {
           <div className="bg-white shadow-md p-8 rounded-md max-w-md w-full">
             <h1 className="text-3xl font-semibold mb-6 text-center">Worker Wallet</h1>
             <div className="flex items-center justify-between mb-4">
-              <p className="text-lg">Wallet Amount:</p>
-              <p className="text-lg font-bold">{wallet}</p>
+              <p className="text-lg">Wallet Amount:{wallet}</p>
+              
             </div>
             <button
               className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-md w-full"

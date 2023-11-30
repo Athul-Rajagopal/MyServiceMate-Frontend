@@ -29,7 +29,7 @@ function UserChat() {
 
   useEffect(() => {
     
-    const newSocket = new WebSocket(`wss://myservicemate.online/api/ws/chat/${roomName}/`);
+    const newSocket = new WebSocket(`ws://myservicemate.online/api/ws/chat/${roomName}/`);
     setSocket(newSocket);
 
     const fetchData = async () => {
@@ -41,12 +41,11 @@ function UserChat() {
         };
         fetchData();
 
-    return() => {
-        if (newSocket) {
-            newSocket.close();
-        }
-        
-    };
+        return () => {
+          if (socket && (socket.readyState === WebSocket.OPEN || socket.readyState === WebSocket.CONNECTING)) {
+            socket.close();
+          }
+        };
 }, [roomName]);
 
   // useEffect(() => {
@@ -74,7 +73,7 @@ function UserChat() {
         setMessages((prevMessages) => [...prevMessages, data]);
       };
     }
-  }, [socket]);
+  });
 
   useEffect(() => {
     if (messagesContainerRef.current) {

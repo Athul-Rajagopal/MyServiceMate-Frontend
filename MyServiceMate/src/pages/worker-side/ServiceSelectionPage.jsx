@@ -121,10 +121,6 @@ function ServiceSelectionPage() {
       
           <div className="flex justify-center flex-wrap mt-10">
             {services.map((service) => {
-              const modifiedImageURL = service.image.replace(
-                'http://0.0.0.0:9090',
-                'https://myservicemate.online'
-              );
               return (
                 <div className='md:w-80 w-full' key={service.id} onClick={() => onSelect(service)}>
                   <div className={`max-w-xs m-2 overflow-hidden rounded-lg shadow-lg flex justify-center ${getServiceStyle(service)}`}>

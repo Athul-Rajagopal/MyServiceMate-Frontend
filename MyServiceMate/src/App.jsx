@@ -38,6 +38,7 @@ import AdminWallet from './pages/admin-side/components/AdminWallet';
 import {ProtectedRoute } from './private routes/PrivateRoute';
 import WorkerTransactionPage from './pages/worker-side/WorkerTransactionPage';
 import EditServicePage from './pages/admin-side/EditServicePage';
+import WithdrawalsPage from './pages/admin-side/WithdrawalsPage';
 
 
 function App() {
@@ -91,6 +92,7 @@ function App() {
           <Route path='/transactions' element={<TransactionsPage/>} />
           <Route path='/admin-wallet' element={<AdminWallet/>} />
           <Route path='/edit-service/:serviceId' element={<EditServicePage/>} />
+          <Route path='/withdrawals' element={<WithdrawalsPage/>} />
           
 
 

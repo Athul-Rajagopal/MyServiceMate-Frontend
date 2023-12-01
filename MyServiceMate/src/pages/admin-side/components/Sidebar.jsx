@@ -25,6 +25,9 @@ function Sidebar() {
     const showWallet = () =>{
       navigate('/admin-wallet')
     }
+    const showWithdrwals =()=>{
+      navigate('/withdrawals')
+    }
   return (
   
         <div className='p-4 bg-slate-100  w-[250px] px-8 h-[600px] mt-2'>
@@ -36,6 +39,7 @@ function Sidebar() {
           <li className='p-4 hover:bg-white ' onClick={workersList}>Workers</li>
           <li className='p-4 hover:bg-white ' onClick={selectTransaction}>Transactions</li>
           <li className='p-4 hover:bg-white ' onClick={showWallet} >Wallet</li>
+          <li className='p-4 hover:bg-white ' onClick={showWithdrwals} >Withdrawals</li>
         </ul>
       </div>
     

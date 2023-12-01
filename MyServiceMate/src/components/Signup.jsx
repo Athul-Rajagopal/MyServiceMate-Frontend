@@ -35,6 +35,22 @@ function Signup() {
             return;
         }
 
+        if (!validateEmail(email)) {
+          setEmailError('Please enter a valid email');
+          return;
+        }
+
+        if (password.length < 4) {
+          alert('Password should be at least 4 characters long');
+          return;
+        }
+
+        if (username.length > 15) {
+          alert('Username should not exceed 15 characters');
+          return;
+        }
+    
+
         const user = {
             'username':username,
             'password':password,
@@ -63,11 +79,10 @@ function Signup() {
     }
 
     const validateEmail = (email) => {
-      // Regular expression for basic email validation
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       return emailRegex.test(email);
     };
-
+    
   return (
     <div>
       {loading ? (

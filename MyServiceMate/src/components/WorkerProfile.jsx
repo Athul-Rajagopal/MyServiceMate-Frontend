@@ -123,7 +123,7 @@ function WorkerProfile() {
         />
         </div>
 
-      <div className="mt-10">
+      <div className="mt-10 h-[500px] overflow-auto">
         <div className="flex justify-center bg-white w-full  ">
           <div className="flex md:w-[830px] w-full flex-wrap md:justify-between gap-3 p-3">
             {workerData.expertise?.map((service) => (

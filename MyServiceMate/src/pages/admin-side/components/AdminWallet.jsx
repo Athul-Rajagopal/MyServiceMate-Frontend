@@ -52,13 +52,13 @@ function AdminWallet() {
       <div className='flex'>
         <Sidebar/>
       
-      <GlobalStyle />
-      <div className="ml-10 flex items-center justify-center h-screen">
+      {/* <GlobalStyle /> */}
+      <div className=" ml-32 w-[500px] flex justify-between text-center">
         {loading ? (
         //   <p className="text-2xl text-gray-500">Loading...</p>
         <Loader/>
         ) : (
-          <div className="bg-white shadow-md p-8 rounded-md max-w-md w-full">
+          <div className="bg-white shadow-md p-8 rounded-md max-w-md w-full ml-28 mt-28 h-[200px]">
             <h1 className="text-3xl font-semibold mb-6 text-center">Wallet</h1>
             <div className="flex items-center justify-between mb-4">
               <p className="text-lg">Wallet Amount:</p>

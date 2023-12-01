@@ -112,6 +112,7 @@ function SlotBooking({workerId}) {
                 className="w-full h-20 px-3 py-2 text-xl text-gray-700 placeholder-gray-600 border rounded-lg focus:shadow-outline"
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
+                required
               ></textarea>
             </div>
             <div className="text-gray-700">
@@ -124,6 +125,7 @@ function SlotBooking({workerId}) {
                 id="forms-labelOverInputCode"
                 value={issue}
                 onChange={(e) => setIssue(e.target.value)}
+                required
               />
             </div>
             <div>

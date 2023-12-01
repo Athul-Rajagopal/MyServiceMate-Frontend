@@ -169,7 +169,10 @@ function Navbar() {
                 </>
               )}
               {is_worker && (
+                <>
               <li className="text-blue-500 hover:border-b-2 border-green-500 cursor-pointer" onClick={showWallet}>Wallet</li>
+              <li className="text-blue-500 hover:border-b-2 border-green-500 cursor-pointer" onClick={showTransactions}>Transactions</li>
+              </>
               )}
             <div>
               <button onClick={handleLogout} className="rounded-lg">

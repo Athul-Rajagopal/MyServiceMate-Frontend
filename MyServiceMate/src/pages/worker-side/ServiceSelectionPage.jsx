@@ -119,7 +119,7 @@ function ServiceSelectionPage() {
             )}
           </div>
       
-          <div className="flex justify-center flex-wrap mt-10">
+          <div className=" h-[500px] overflow-auto md:flex justify-center flex-wrap mt-10 ">
             {services.map((service) => {
               return (
                 <div className='md:w-80 w-full' key={service.id} onClick={() => onSelect(service)}>

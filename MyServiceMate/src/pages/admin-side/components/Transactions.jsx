@@ -24,6 +24,7 @@ function Transactions() {
     const axiosInstance = AxiosInstance(accessToken)
     const [loading, setLoading] = useState(true)
     const [currentPage, setCurrentPage] = useState(1);
+    const [searchTerm, setSearchTerm] = useState('');
     const bookingsPerPage = 8;
 
     useEffect(()=>{
@@ -42,15 +43,48 @@ function Transactions() {
     const indexOfFirstBooking = indexOfLastBooking - bookingsPerPage;
     const currentBookings = transaction.slice(indexOfFirstBooking, indexOfLastBooking);
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+    const filteredTransactions = transaction.filter((transaction) => {
+      return (
+        transaction.user.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        transaction.worker.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        transaction.amount.toString().includes(searchTerm.toLowerCase()) ||
+        transaction.Bookings.id.toString().includes(searchTerm.toLowerCase()) ||
+        moment(transaction.date).format('MMMM D, YYYY').toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (transaction.payed_date_time
+          ? moment(transaction.payed_date_time).format('MMMM D, YYYY').toLowerCase().includes(searchTerm.toLowerCase())
+          : 'Not Paid'.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (transaction.received_date_time
+          ? moment(transaction.received_date_time).format('MMMM D, YYYY').toLowerCase().includes(searchTerm.toLowerCase())
+          : 'Not Received'.toLowerCase().includes(searchTerm.toLowerCase()))
+      );
+    });
+
+    const handleSearchChange = (e) => {
+      setSearchTerm(e.target.value);
+    };
+
   return (
     <ThemeProvider theme={theme}>
-      <GlobalStyle />
+      {/* <GlobalStyle /> */}
       {loading ? (
           <Loader /> // Render the Loader component while loading is true
         ) : (<div className="md:pl-20 md:pr-20 mb-6 mt-8">
         <div className="h-[500px] overflow-y-auto">
+
+        <div>
+            <label className="block text-sm text-gray-600 mt-4">
+              Search:
+              <input
+                type="text"
+                value={searchTerm}
+                onChange={handleSearchChange}
+                className="block border border-gray-300 rounded p-2 mt-4 mb-3"
+              />
+            </label>
+          </div>
           
-          {transaction.map((transaction) => (
+          {filteredTransactions.map((transaction) => (
             <div className="md:flex shadow-2xl bg-white overflow-hidden rounded-lg mb-4 p-4" key={transaction.id}>
               <div className="md:w-1/5">
                 <img className="w-[100px] h-[100px] rounded-full" src={userImage} alt="" />

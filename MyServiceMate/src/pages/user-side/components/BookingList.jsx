@@ -125,14 +125,16 @@ function BookingList() {
                   Status: {booking.is_completed ? 'Completed' : booking.is_accepted ? 'Accepted' : booking.is_rejected ? 'Rejected' : 'Pending for acceptance'}
                 </p>
               </div>
+              {!booking.is_completed && (
               <div className="md:w-1/5 p-4">
                   <button
                     className="bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded-md w-full"
                     onClick={() => cancelBooking(booking.id)}
                   >
                     Cancel Booking
-                  </button>
+                  </button> 
                 </div>
+                 )}
             </div>
           ))}
 

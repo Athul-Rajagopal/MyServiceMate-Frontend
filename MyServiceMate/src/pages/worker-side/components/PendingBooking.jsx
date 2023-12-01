@@ -43,7 +43,7 @@ function PendingBooking() {
             console.error('Error fetching pending bookings:', error);
             setLoading(false)
           });
-      }, []);
+      }, [selectedBooking]);
 
       const handleCompleteClick = (booking) => {
 
@@ -88,6 +88,7 @@ function PendingBooking() {
 
       const filteredBookings = bookings.filter((booking) => {
         return (
+          String(booking.id).includes(searchTerm.toLowerCase()) ||
           booking.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
           booking.issue.toLowerCase().includes(searchTerm.toLowerCase()) ||
           booking.contact_address.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -119,6 +120,7 @@ function PendingBooking() {
               <img className="w-[100px] h-[100px] rounded-full" src={userImage} alt="" />
             </div>
             <div className="md:w-3/5 p-4">
+            <p className="text-[#bc501b] font-bold">Booking ID: {booking.id}</p>
               <p className="text-xl text-[#051570] font-semibold">Name: {booking.username}</p>
               <p>Issue: {booking.issue}</p>
               <p className="text-[#bc501b] font-bold">Address: {booking.contact_address}</p>
@@ -135,9 +137,9 @@ function PendingBooking() {
                 
                 
                 {booking.is_completed && (
-                <p className="bg-blue-400 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full flex-1"
+                <p className=" text-blue-500 font-bold py-2 px-4 rounded-full flex-1"
                 >
-                PayMent Recieved
+                Completed
                 </p>
                 )}
               </div>

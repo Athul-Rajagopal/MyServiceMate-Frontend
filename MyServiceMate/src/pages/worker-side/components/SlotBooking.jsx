@@ -98,7 +98,7 @@ function SlotBooking({workerId}) {
     {/* {loading ? (
           <Loader /> // Render the Loader component while loading is true
         ) : ( */}
-    <div className="flex-col md:flex justify-between">
+    <div className="flex flex-col md:flex-row justify-between">
         <div style={{ flex: 1, backgroundColor: 'white' }}>
           <SimpleCalendar Id={workerId} flag={1} />
         </div>

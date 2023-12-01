@@ -106,10 +106,15 @@ function Navbar() {
             <ul className="flex gap-4">
               {!is_worker && (
                 <>
-                <li className="text-blue-500 hover:border-b-2 border-green-500 cursor-pointer animate-bounce animate-thrice animate-ease-in-out" onClick={showPendingPayments} >New payment
+                <li className="text-blue-500 hover:border-b-2 border-green-500 cursor-pointer md:animate-bounce animate-thrice animate-ease-in-out" onClick={showPendingPayments} >New payment
                 {newPaymentsCount > 0 && (
                       <span className="bg-red-500 text-white font-bold rounded-full ml-1 px-2 ">{newPaymentsCount}</span>
-                    )}</li>
+                    )}
+                    {newPaymentsCount === 0 && (
+                <span className="bg-red-500 text-white font-bold rounded-full ml-1 px-2">
+                  0
+                </span>
+              )}</li>
                 <li className="text-blue-500 hover:border-b-2 border-green-500 cursor-pointer" onClick={showBookings}>My bookings</li>
                 <li className="text-blue-500 hover:border-b-2 border-green-500 cursor-pointer" onClick={showPayments}>My Payments</li>
                 </>
@@ -137,10 +142,11 @@ function Navbar() {
             </button>
           </div>
         )}
-
+      {isAuthenticated && (
         <div className="w-10 h-20 md:hidden">
           <img src={toggle ? closemenu : menulogo} alt="" onClick={handleToggle} />
         </div>
+        )}
       </div>
 
       {isAuthenticated && (
@@ -148,10 +154,16 @@ function Navbar() {
           <ul>
           {!is_worker && (
                 <>
-                <li className="text-blue-500 hover:border-b-2 border-green-500 cursor-pointer animate-bounce animate-thrice animate-ease-in-out" onClick={showPendingPayments} >New payment
+                <li className="text-blue-500 hover:border-b-2 border-green-500 cursor-pointer" onClick={showPendingPayments} >New payment
                 {newPaymentsCount > 0 && (
                       <span className="bg-red-500 text-white font-bold rounded-full ml-1 px-2 ">{newPaymentsCount}</span>
-                    )}</li>
+                    )}
+                    {newPaymentsCount === 0 && (
+                  <span className="bg-red-500 text-white font-bold rounded-full ml-1 px-2">
+                    0
+                  </span>
+                )}</li>
+                    
                 <li className="text-blue-500 hover:border-b-2 border-green-500 cursor-pointer" onClick={showBookings}>My bookings</li>
                 <li className="text-blue-500 hover:border-b-2 border-green-500 cursor-pointer" onClick={showPayments}>My Payments</li>
                 </>

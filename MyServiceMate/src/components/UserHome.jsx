@@ -73,7 +73,7 @@ function UserHome({ locationId }) {
         <LocationDropdown onSelectLocation={handleLocationSelect} />
       </div>
       <div className="flex justify-center">
-        <div className="flex md:w-[840px] w-full flex-wrap md:justify-between gap-3 p-3">
+        <div className=" h-[600px] overflow-y-auto flex md:w-[840px] w-full flex-wrap md:justify-between gap-3 p-3">
           {services.map((service) => (
             <div className="md:w-96 w-full">
               <div

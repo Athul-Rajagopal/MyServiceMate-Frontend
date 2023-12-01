@@ -125,7 +125,7 @@ function ServiceSelectionPage() {
                 <div className='md:w-80 w-full' key={service.id} onClick={() => onSelect(service)}>
                   <div className={`max-w-xs m-2 overflow-hidden rounded-lg shadow-lg flex justify-center ${getServiceStyle(service)}`}>
                     <div className="px-6 py-4">
-                      <img className="w-[150px] h-[150px]" src={service.image.replace('http://', 'https://')}alt={service.services} />
+                      <img className="w-[150px] h-[150px]" src={service.image.replace('http://localhost', 'https://myservicemate.online')}alt={service.services} />
                       <h4 className="ml-5 mb-3 text-xl font-semibold tracking-tight text-gray-800">{service.services}</h4>
                     </div>
                   </div>

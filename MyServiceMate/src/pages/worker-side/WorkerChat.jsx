@@ -49,7 +49,7 @@ const onSelectUser = (workerId,user_Id,username) => {
   fetchData();
 
   const roomName = `${workerId}_${user_Id}`;
-  const newSocket = new WebSocket(`ws://myservicemate.online/api/ws/chat/${roomName}/`);
+  const newSocket = new WebSocket(`wss://myservicemate.online/api/ws/chat/${roomName}/`);
   setSocket(newSocket);
 
   if (socket) {

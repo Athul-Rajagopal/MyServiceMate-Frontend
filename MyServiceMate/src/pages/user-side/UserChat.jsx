@@ -29,7 +29,7 @@ function UserChat() {
 
   useEffect(() => {
     
-    const newSocket = new WebSocket(`ws://myservicemate.online/api/ws/chat/${roomName}/`);
+    const newSocket = new WebSocket(`wss://myservicemate.online/api/ws/chat/${roomName}/`);
     setSocket(newSocket);
 
     const fetchData = async () => {

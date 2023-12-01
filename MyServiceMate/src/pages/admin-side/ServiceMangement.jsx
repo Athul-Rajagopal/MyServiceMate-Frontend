@@ -76,7 +76,7 @@ const confirmRemoveService = () => {
       <div className="flex justify-center flex-wrap mt-10">
         {services.map((service) =>{
            const modifiedImageURL = service.image.replace(
-            'http://0.0.0.0:9090',
+            'http://localhost',
             'https://myservicemate.online'
           );
           return (

@@ -22,6 +22,8 @@ function WorkerChat() {
   const {accessToken,userId} = userData
   const axiosInstance = AxiosInstance(accessToken)
   const [workerId, setWorkerId] = useState(null)
+  const [currentTime, setCurrentTime] = useState(new Date());
+
   useEffect(() => {
     // Make a GET request to fetch messages
     axiosInstance
@@ -59,6 +61,7 @@ const onSelectUser = (workerId,user_Id,username) => {
     socket.onmessage = (event) => {
       const data = JSON.parse(event.data);
       setMessages((prevMessages) => [...prevMessages, data]);
+      setCurrentTime((prevValue) => !prevValue);
     };
   }
 

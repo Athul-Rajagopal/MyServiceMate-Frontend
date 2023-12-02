@@ -26,6 +26,7 @@ function UserChat() {
   const userData = useSelector(selectUserData)
   const {accessToken} = userData
   const roomName = `${userId}_${workerId}`;
+  const [currentTime, setCurrentTime] = useState(false);
 
   useEffect(() => {
     
@@ -37,6 +38,7 @@ function UserChat() {
           if (data) {
             setMessages(data);
             setLoading(false);
+            setCurrentTime((prevValue) => !prevValue);
           }
         };
         fetchData();
@@ -46,7 +48,7 @@ function UserChat() {
             socket.close();
           }
         };
-}, [roomName]);
+}, [roomName,currentTime]);
 
   // useEffect(() => {
   //   const fetchData = async () => {
@@ -71,9 +73,10 @@ function UserChat() {
       socket.onmessage = (event) => {
         const data = JSON.parse(event.data);
         setMessages((prevMessages) => [...prevMessages, data]);
+        setCurrentTime((prevValue) => !prevValue);
       };
     }
-  });
+  },[socket]);
 
   useEffect(() => {
     if (messagesContainerRef.current) {
@@ -89,11 +92,13 @@ function UserChat() {
         receiver: workerId,
         message_content: messageInput,
       };
+
       console.log(newMessage)
       const response = await createMessage(newMessage, accessToken);
       if (response) {
         if (socket) {
           socket.send(JSON.stringify(newMessage));
+          setCurrentTime((prevValue) => !prevValue)
         }
         setMessageInput('');
       }

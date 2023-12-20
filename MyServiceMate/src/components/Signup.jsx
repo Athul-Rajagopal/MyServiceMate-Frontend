@@ -72,6 +72,13 @@ function Signup() {
             }
           } catch (error) {
             console.error('Form submission error:', error);
+            if (error.response.data.status === 'error_username') {
+              alert('Username already exists. Please choose a different username.');
+            } else if (error.response.data.status === 'error_email') {
+              alert('Email already exists. Please use a different email.');
+            } else {
+              alert('An error occurred. Please try again later.');
+            }
           }
           finally {
             setLoading(false); // Set loading to false after the request is complete

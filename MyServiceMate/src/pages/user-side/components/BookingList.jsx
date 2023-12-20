@@ -26,6 +26,7 @@ function BookingList() {
     const [loading, setLoading] = useState(true)
     const [message, setMessage] = useState('');
     const bookingsPerPage = 8;
+    const [refreshKey, setRefreshKey] = useState(0);
 
     useEffect(() => {
         // Replace 'workerId' with the actual worker ID
@@ -42,7 +43,7 @@ function BookingList() {
             console.error('Error fetching pending bookings:', error);
             setLoading(false)
           });
-      }, [userId]);
+      }, [userId,refreshKey]);
 
       const indexOfLastBooking = currentPage * bookingsPerPage;
       const indexOfFirstBooking = indexOfLastBooking - bookingsPerPage;
@@ -70,6 +71,7 @@ function BookingList() {
           .post('/cancel-booking/', { booking_id: bookingId })
           .then((response) => {
             setMessage(response.data.message);
+            setRefreshKey((prevKey) => prevKey + 1); // Increment the key to trigger a refresh
           })
           .catch((error) => {
             if (error.response) {

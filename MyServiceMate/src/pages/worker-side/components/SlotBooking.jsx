@@ -42,6 +42,8 @@ function SlotBooking({workerId}) {
     const [issue, setIssue] = useState('');
     const axiosInstance = AxiosInstance(accessToken);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
     // const [loading, setLoading] = useState(true);
 
 
@@ -64,6 +66,13 @@ function SlotBooking({workerId}) {
             alert('Please select a date before submitting.');
             return;
           }
+
+        if (isSubmitting) {
+            // If the form is already submitting, do nothing
+            return;
+          }
+        
+        setIsSubmitting(true);
 
         const dataToSend = {
             date: selectedDate,
@@ -90,6 +99,9 @@ function SlotBooking({workerId}) {
             }
             // setLoading(false)
             console.log(error);
+          })
+          .finally(() => {
+            setIsSubmitting(false); // Set isSubmitting back to false after the API call is completed
           });
     }
   return (
@@ -132,8 +144,9 @@ function SlotBooking({workerId}) {
               <button
                 className="bg-blue-300 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full flex-1 mt-5"
                 type="submit"
+                disabled={isSubmitting}
               >
-                Submit
+                {isSubmitting ? 'Submitting...' : 'Submit'}
               </button>
             </div>
           </div>

@@ -27,6 +27,7 @@ function PendingBooking() {
     const [paymentReceived, setPaymentReceived] = useState(false);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
+    const [refreshKey, setRefreshKey] = useState(0);
 
     console.log(selectedBooking)
     useEffect(() => {
@@ -43,7 +44,7 @@ function PendingBooking() {
             console.error('Error fetching pending bookings:', error);
             setLoading(false)
           });
-      }, [selectedBooking]);
+      }, [selectedBooking,refreshKey]);
 
       const handleCompleteClick = (booking) => {
 
@@ -80,6 +81,7 @@ function PendingBooking() {
         });
         // Close the modal after submitting
         closeModal();
+        setRefreshKey((prevKey) => prevKey + 1); // Increment the key to trigger a refresh
       };
 
       const handleSearchChange = (e) => {

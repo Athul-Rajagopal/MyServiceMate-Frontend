@@ -52,7 +52,7 @@ function SignIn() {
   
       if (response.status === 200) {
         // Authentication successful
-        console.log('Authentication successful:', response.data);
+        // console.log('Authentication successful:', response.data);
   
         const is_Worker = response.data.worker;
         const is_user = response.data.is_user

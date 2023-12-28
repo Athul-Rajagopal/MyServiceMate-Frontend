@@ -44,6 +44,20 @@ function SignIn() {
     });
   };
 
+  const demoLogin = () =>{
+    if (userType == 'user'){
+      setFormData({
+    username:'sudheesh',
+    password:'1234'})
+    }
+    else if (userType == 'worker'){
+      setFormData({
+        username:'Manav',
+        password:'manav'
+      })
+    }
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -175,11 +189,18 @@ function SignIn() {
       </Link>
 
     </div>
+    <div className='flex'>
     <Link to={`/signup?type=${userType}`}>
     <p className="mt-5   text-blue-500 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="text">
         Sign Up
       </p>
     </Link>
+    <button className="text-white bg-red-500 rounded-lg px-4 hover:bg-red-600 transition-all duration-300 ease-in-out mt-2"
+      onClick={demoLogin}
+      style={{height:'50px'}}>
+        Demo login
+      </button>
+    </div>
   </form>
 </div>
 )}
